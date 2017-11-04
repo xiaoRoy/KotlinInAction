@@ -1,0 +1,12 @@
+/dependencies/
+/ideaSDK/
+build/
+.DS_Store
+*.iml
+/.gradle
+/out
+.idea/inspectionProfiles
+.idea/modules
+.idea/gradle.xml
+.idea/tasks.xml
+.idea/
