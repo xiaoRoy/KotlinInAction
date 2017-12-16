@@ -30,6 +30,7 @@ fun eval(expression: Expression): Int =
         }
 
 fun evalBlockWithJavaStyle(expression: Expression): Int {
+    //always throws the exception, block body always needs a explicit return or throw
     if (expression is Number) {
         val number = expression as Number
         number.value
@@ -71,3 +72,16 @@ fun notExpressionBody(numberA: Int, numberB: Int): Int =
     numberA + numberB
 }
 */
+
+fun main(args: Array<String>) {
+    evalWithJavaStyle(Sum(Number(1), Number(1)))
+}
+
+fun testLastExpressionInBlockIsTheResult(): Int {
+    //"if" must have both main and 'else' branch when use as an expression
+    return if (true) {
+        1
+    } else {
+        2
+    }
+}
