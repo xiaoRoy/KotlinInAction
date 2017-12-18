@@ -10,7 +10,7 @@ var count = 0
 
 const val DEFAULT_COUNT = 0
 
-fun <T> joinToString(
+fun <T> joinString(
         collection: Collection<T>,
         separator: String,
         prefix: String,
@@ -26,21 +26,52 @@ fun <T> joinToString(
     return result.toString()
 }
 
-fun <T> joinToStringDefaultParameterValue(
+fun <T> joinStringDefaultParameterValue(
         collection: Collection<T>,
         separator: String = ", ",
         prefix: String = "(",
-        postfix: String = ")"):String{
-    return joinToString(collection, separator, prefix, postfix)
+        postfix: String = ")"): String{
+    return joinString(collection, separator, prefix, postfix)
+}
+
+fun <T> Collection<T>.joinStringFinal(
+        separator: String = ", ",
+        prefix: String = "(",
+        postfix: String = ")"): String{
+    val result = StringBuilder(prefix)
+    for((index, element) in this.withIndex()){
+        if(index > 0){
+            result.append(separator)
+        }
+        result.append(element)
+    }
+    result.append(postfix)
+    return result.toString()
+}
+
+fun Collection<String>.joinStringOnly(
+        separator: String = ", ",
+        prefix: String = "(",
+        postfix: String = ")"
+): String {
+    val result = StringBuilder(prefix)
+    for ((index, element) in withIndex()) {
+        if (index > 0) {
+            result.append(separator)
+        }
+        result.append(element)
+    }
+    result.append(postfix)
+    return result.toString()
 }
 
 
 fun main(args: Array<String>) {
     val fruits = listOf<String>("Apple", "Pear", "Orange")
-    println(joinToString(fruits, "," ,"(", ")"))
+    println(joinString(fruits, "," ,"(", ")"))
     //name arguments
-    println(joinToString(fruits, separator = ",", prefix = "(", postfix = ")"))
-    println(joinToStringDefaultParameterValue(fruits))
-    println(joinToStringDefaultParameterValue(fruits, "^"))
-    println(joinToStringDefaultParameterValue(fruits, prefix = "{", postfix = "}"))
+    println(joinString(fruits, separator = ",", prefix = "(", postfix = ")"))
+    println(joinStringDefaultParameterValue(fruits))
+    println(joinStringDefaultParameterValue(fruits, "^"))
+    println(joinStringDefaultParameterValue(fruits, prefix = "{", postfix = "}"))
 }
