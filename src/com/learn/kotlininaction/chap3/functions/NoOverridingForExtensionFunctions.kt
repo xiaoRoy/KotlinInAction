@@ -10,7 +10,7 @@ open class View {
 
 class Button : View(){
     override fun click() {
-        println("Button Click")
+        println("AppCompatButton Click")
     }
 }
 
@@ -18,7 +18,7 @@ fun View.showOff() {
     println("View showOff()")
 }
 
-fun Button.showOff() = println("Button showOff()")
+fun Button.showOff() = println("AppCompatButton showOff()")
 
 fun main(args: Array<String>) {
     val view: View = Button()
