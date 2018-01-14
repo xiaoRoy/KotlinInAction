@@ -46,5 +46,17 @@ class Counter {
     }
 }
 
+/*
+* 4.2.5 Changing accessor visibility
+* */
+
+class LengthCounter{
+    var count: Int = 0
+    private set
+
+    fun addWork(word: String){
+        count += word.length
+    }
+}
 
 
