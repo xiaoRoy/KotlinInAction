@@ -1,4 +1,4 @@
-package com.learn.kotlininaction.chap4.createinstance
+package com.learn.kotlininaction.chap4.constructor
 
 data class ClientData constructor(val name: String, val postalCode: Int)
 

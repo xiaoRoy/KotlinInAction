@@ -1,4 +1,4 @@
-package com.learn.kotlininaction.chap4.createinstance
+package com.learn.kotlininaction.chap4.constructor
 
 class Client(val name: String, val postalCode: Int){
     override fun toString() = "Client(name=$name, postalCode=$postalCode)"

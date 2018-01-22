@@ -1,4 +1,4 @@
-package com.learn.kotlininaction.chap4.createinstance
+package com.learn.kotlininaction.chap4.constructor
 
 class DelegationCollection<T> : Collection<T> {
 
