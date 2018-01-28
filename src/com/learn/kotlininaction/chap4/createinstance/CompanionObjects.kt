@@ -37,6 +37,10 @@ class UserCompanionObject(val nickname: String){
 
         fun newFacebookUser(facebookAccountId: Int) = User("fb$facebookAccountId")
     }
+
+    fun test(){
+        newSubscribingUser("")
+    }
 }
 
 fun accessPrivate(){
@@ -44,4 +48,48 @@ fun accessPrivate(){
     // can't access private method
     //rice.weight()
     Rice.weight()
+}
+
+/*
+*4.4.3 Companion objects as regular objects
+* */
+
+
+class Ticket constructor(val id: String){
+    companion object JsonParser{
+        fun fromJson(jsonText: String): Ticket = Ticket("10001")
+    }
+}
+
+interface JsonFactory<T>{
+    fun fromJson(jsonText: String): T
+}
+
+class Computer(val id: String){
+    companion object : JsonFactory<Computer>{
+        override fun fromJson(jsonText: String): Computer {
+            return Computer("123")
+        }
+    }
+}
+
+fun <T>loadFormJson(factory: JsonFactory<T>, jsonText: String): T{
+    return factory.fromJson(jsonText)
+}
+
+fun main(args: Array<String>) {
+    loadFormJson(Computer.Companion, "null")
+}
+
+class Tea constructor(val id: String){
+
+    companion object {
+
+    }
+
+    fun Tea.Companion.fromJson(jsonText: String): Tea{
+        return Tea("223")
+    }
+
+    fun test() = Tea.fromJson("response")
 }
