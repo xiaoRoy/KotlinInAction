@@ -23,8 +23,43 @@ fun findTheOldestLambda(people: List<Person>){
     println(theOldest)
 }
 
+fun findTheOldestThreeFormsLambda(people: List<Person>){
+    //no shortcut
+    val theOldestA = people.maxBy ({ person: Person -> person.age })
+    //last argument of the function call
+    val theOldestB = people.maxBy() { person: Person -> person.age }
+    //only argument to a function
+    val theOldestC = people.maxBy { person: Person -> person.age}
+    //inferred the type
+    val theOldestD = people.maxBy { person -> person.age }
+    //default argument name
+    val theOldestE = people.maxBy { it.age }
+}
+
 
 fun findTheOldestMemberReference(people: List<Person>){
     val theOldest = people.maxBy (Person::age)
     println(theOldest)
 }
+
+
+fun sumLambda(){
+    val sum = {x: Int, y:Int ->
+        println("result of $x + $y")
+        x + y
+    }
+    println(sum(1, 1))
+}
+
+fun sumLambdaDirectly(){
+    {x: Int, y:Int -> x + y}(1, 1)
+}
+
+fun sumLambRun(){
+    run{}
+}
+
+fun main(args: Array<String>) {
+    sumLambda()
+}
+
