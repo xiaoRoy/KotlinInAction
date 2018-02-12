@@ -10,6 +10,7 @@ package com.learn.kotlininaction.chap5.lambdaexpression
 
 private val numbers = listOf(1, 2, 3, 4, 5)
 private val people = listOf(Person("Mary", 22), Person("Smith", 18), Person("Rose", 32), Person("Lily", 12))
+private val isAdultPredicate = {person: Person -> person.age >= 18 }
 
 fun filterEven(){
     val evenPredicate: (Int) -> Boolean = {number: Int -> number % 2 == 0}
@@ -36,6 +37,13 @@ fun whoIsTheOldest(){
     val maxAge = people.maxBy { it.age }?.age
     val theOldest =
             people.filter { it.age == maxAge }
+}
+
+fun filterAdult(){
+    people.all(isAdultPredicate)
+    people.any(isAdultPredicate)
+    people.count(isAdultPredicate)
+    val adult: Person? = people.find(isAdultPredicate)
 }
 
 fun mapNumber(){
