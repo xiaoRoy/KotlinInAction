@@ -59,6 +59,20 @@ fun containerMap(){
     numberMap.mapKeys{it.key.toUpperCase()}
 }
 
+data class Book(val title: String, val authors: List<String>)
+
+fun flatMap(){
+    val alphabetic = listOf("abc", "def", "gh")
+    val resultMap: List<List<Char>> = alphabetic.map { it.toList() }
+    val resultFlatMap: List<Char> = alphabetic.flatMap { it.toList() }
+}
+
+fun flatMapBook(){
+    val books = listOf(Book("Thursday Next", listOf("Jasper Fo")),
+                        Book("Mort", listOf("Terry Pratchett")), Book("Good Omens", listOf("Terry Pratchett","Neal Gaiman")))
+    books.flatMap { it.authors.toList() }.toSet()
+
+}
 fun main(args: Array<String>) {
     filterPeople()
 }
