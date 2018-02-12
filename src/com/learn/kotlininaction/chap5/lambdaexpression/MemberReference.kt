@@ -1,7 +1,5 @@
 package com.learn.kotlininaction.chap5.lambdaexpression
 
-import kotlin.math.ceil
-
 /*
 * 5.1.5 Member references
 * */
