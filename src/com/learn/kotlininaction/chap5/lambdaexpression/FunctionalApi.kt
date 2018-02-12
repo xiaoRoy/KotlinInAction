@@ -46,6 +46,10 @@ fun filterAdult(){
     val adult: Person? = people.find(isAdultPredicate)
 }
 
+fun groupBy(){
+    val rsult:Map<Int, List<Person>> = people.groupBy (Person::age)
+}
+
 fun mapNumber(){
     numbers.map { it * it }
 }
