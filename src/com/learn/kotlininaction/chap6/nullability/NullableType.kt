@@ -58,7 +58,6 @@ fun rightSideOfElvisOperator(text: String?): Int?{
     return result
 }
 
-
 fun printShippingAddress(person: Person){
     val address: Address = person.company?.address ?: throw IllegalArgumentException("No Address")
     with(address){
@@ -114,6 +113,18 @@ fun verifyUserInput(input: String?){
 
 fun String?.isNullOrBlankCustom(): Boolean{
     return this == null || this.isBlank()
+}
+
+fun <T> printHashCode(t: T){
+    /*
+    * compile error
+    * println(t.hashCode())
+    * */
+    println(t?.hashCode())
+}
+
+fun <T: Any> printHashCodeNonNull(t: T){
+    println(t.hashCode())
 }
 
 fun main(args: Array<String>) {
