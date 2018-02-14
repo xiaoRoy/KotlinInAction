@@ -67,6 +67,10 @@ fun printShippingAddress(person: Person){
     }
 }
 
+fun ignoreNull(text: String?){
+    val textNotNull: String = text!!
+}
+
 fun main(args: Array<String>) {
     println(rightSideOfElvisOperator(null))
 }
