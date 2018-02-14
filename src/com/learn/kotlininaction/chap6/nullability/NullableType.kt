@@ -106,6 +106,16 @@ class MyTest{
     }
 }
 
+fun verifyUserInput(input: String?){
+    if(input.isNullOrBlank()){
+        println("Please fill in the required filed.")
+    }
+}
+
+fun String?.isNullOrBlankCustom(): Boolean{
+    return this == null || this.isBlank()
+}
+
 fun main(args: Array<String>) {
     println(rightSideOfElvisOperator(null))
 }
