@@ -71,6 +71,22 @@ fun ignoreNull(text: String?){
     val textNotNull: String = text!!
 }
 
+fun sendEmail(email: String){
+    println("email to $email send")
+}
+
+private fun doSendEmail(){
+    val email: String? = null;
+    if(email != null){
+        sendEmail(email)
+    }
+}
+
+private fun doSendEmailLet(){
+    val email: String? = null
+    email?.let { sendEmail(it) }
+}
+
 fun main(args: Array<String>) {
     println(rightSideOfElvisOperator(null))
 }
