@@ -1,5 +1,7 @@
 package com.learn.kotlininaction.chap6.nullability
 
+import com.learn.kotlininaction.chap5.lambdaexpression.alphabetMoreConcise
+
 /*
 * 6.1.1 Nullable types
 * */
@@ -30,6 +32,17 @@ class Company(val name: String, val address: Address?)
 
 class Person(val name: String, val company: Company?)
 
+class Student(val firstName: String, val lastName: String){
+
+    override fun equals(other: Any?): Boolean {
+        val otherStudent = (other as? Student) ?: return false
+        return firstName == otherStudent.firstName &&
+                lastName == otherStudent.lastName
+    }
+
+    override fun hashCode() = firstName.hashCode() * 37 + lastName.hashCode()
+}
+
 fun Person.countryName(person: Person): String{
     val countryName = person.company?.address?.country
     return if (countryName == null) "Unknown" else countryName
@@ -40,6 +53,12 @@ fun Person.countryNameElvis(person: Person): String{
     return countryName ?: "Unknown"
 }
 
+fun rightSideOfElvisOperator(text: String?): Int?{
+    val result = text?.length ?: return null
+    return result
+}
+
+
 fun printShippingAddress(person: Person){
     val address: Address = person.company?.address ?: throw IllegalArgumentException("No Address")
     with(address){
@@ -49,5 +68,5 @@ fun printShippingAddress(person: Person){
 }
 
 fun main(args: Array<String>) {
-    printAllCaps(null)
+    println(rightSideOfElvisOperator(null))
 }
