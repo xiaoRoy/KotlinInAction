@@ -87,6 +87,25 @@ private fun doSendEmailLet(){
     email?.let { sendEmail(it) }
 }
 
+class TestSubject{
+    fun testMethod(){
+
+    }
+}
+
+class MyTest{
+
+    private lateinit var testSubject: TestSubject
+
+    fun setUp(){
+        testSubject = TestSubject()
+    }
+
+    fun test(){
+        testSubject.testMethod()
+    }
+}
+
 fun main(args: Array<String>) {
     println(rightSideOfElvisOperator(null))
 }
