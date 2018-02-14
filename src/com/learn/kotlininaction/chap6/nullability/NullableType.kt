@@ -127,6 +127,33 @@ fun <T: Any> printHashCodeNonNull(t: T){
     println(t.hashCode())
 }
 
+fun yellAt(personJ: PersonJ){
+    println("${personJ.name.toUpperCase()} !!!")
+}
+
+fun yellAtSafeCallOperator(personJ: PersonJ){
+    println("${personJ.name?.toUpperCase()} !!!")
+}
+
+fun personName(personJ: PersonJ){
+    val nameNotNull: String = personJ.name
+    val nameNullable: String? = personJ.name
+}
+
+class NullableStringPrinter : StringProcessorJ{
+    override fun process(value: String?) {
+        if(value != null){
+            println(value.toUpperCase())
+        }
+    }
+}
+
+class StringPrinter : StringProcessorJ{
+    override fun process(value: String) {
+        println(value.toUpperCase())
+    }
+}
+
 fun main(args: Array<String>) {
-    println(rightSideOfElvisOperator(null))
+    yellAtSafeCallOperator(PersonJ(null))
 }
