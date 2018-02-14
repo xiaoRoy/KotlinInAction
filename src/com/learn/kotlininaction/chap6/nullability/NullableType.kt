@@ -8,9 +8,14 @@ fun textLength(text: String) = text.length
 
 fun textLengthSafe(text: String?) = if (text!= null) text.length else 0
 
+fun textLengthSafeOperator(text: String?): Int? = text?.length
+
+fun textLengthElvisOperator(text: String?): Int = text?.length ?: 0
+
 fun printAllCaps(text: String?){
     val result: String? = text?.toUpperCase()
-//    val result = if(text != null) text.toUpperCase() else null
+    //equivalent to text?.toUpperCase()
+    //val result = if(text != null) text.toUpperCase() else null
     println(result)
 }
 
@@ -28,6 +33,19 @@ class Person(val name: String, val company: Company?)
 fun Person.countryName(person: Person): String{
     val countryName = person.company?.address?.country
     return if (countryName == null) "Unknown" else countryName
+}
+
+fun Person.countryNameElvis(person: Person): String{
+    val countryName = person.company?.address?.country
+    return countryName ?: "Unknown"
+}
+
+fun printShippingAddress(person: Person){
+    val address: Address = person.company?.address ?: throw IllegalArgumentException("No Address")
+    with(address){
+        println(streetAddress)
+        println("$zipCode $city, $country")
+    }
 }
 
 fun main(args: Array<String>) {
