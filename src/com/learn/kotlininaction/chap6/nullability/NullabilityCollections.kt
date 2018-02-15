@@ -54,3 +54,15 @@ fun main(args: Array<String>) {
 }
 
 
+fun <T> copyElements(source: Collection<T>, target: MutableCollection<T>){
+    for(element in source){
+        target.add(element)
+    }
+}
+
+fun runCopyElements(){
+    val source: Collection<Int> = arrayListOf(2, 3, 4, 5)
+    val target: MutableCollection<Int> = arrayListOf(1)
+    copyElements(source, target)
+}
+
