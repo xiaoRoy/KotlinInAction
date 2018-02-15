@@ -12,3 +12,15 @@ class NoResultProcessor: Processor<Unit>{
     override fun process(): Unit{
     }
 }
+
+
+class Phone(val name: String?)
+
+fun fail(message: String): Nothing{
+    throw IllegalStateException(message)
+}
+
+fun main(args: Array<String>) {
+    val phone = Phone(null)
+    val phoneName = phone.name?.toUpperCase()?: fail("Unknown")
+}
