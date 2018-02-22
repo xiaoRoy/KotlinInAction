@@ -1,6 +1,5 @@
 package com.learn.kotlininaction.chap7.arithmetic
 
-import com.learn.kotlininaction.chap5.lambdaexpression.containerMap
 import com.learn.kotlininaction.chap7.Point
 
 
@@ -26,6 +25,29 @@ fun pointScale(): Unit{
     val scaledPoint: Point = point * 1.5
 }
 
+fun plusAssign(){
+    var point = Point(1, 6)
+    point += Point(1, 3)
+}
+
+
+/*
+*
+* operator fun <T> MutableCollection<T>.plusAssign(element: T){
+*   this.add(element)
+* }
+* */
+fun compoundAssignment(){
+    val numbers = ArrayList<Int>()
+    numbers += 42
+}
+
+fun compoundAssignmentOnCollection(){
+    val list = arrayListOf(1, 3)
+    list += 5
+    
+    val newList = list + listOf(7 ,9)
+}
 
 fun main(args: Array<String>) {
     pointPlus()
