@@ -1,6 +1,7 @@
 package com.learn.kotlininaction.chap7.arithmetic
 
 import com.learn.kotlininaction.chap7.Point
+import java.math.BigDecimal
 
 
 /*
@@ -16,9 +17,13 @@ operator fun Point.times(scale: Double): Point{
     return Point((x * scale).toInt(), (y * scale).toInt())
 }
 
+operator fun Point.unaryMinus() = Point(-x, -y)
+
 operator fun Char.times(count: Int): String{
     return this.toString().repeat(count)
 }
+
+operator fun BigDecimal.inc() = this + BigDecimal.ONE
 
 fun pointScale(): Unit{
     val point = Point(3, 22)
@@ -48,6 +53,18 @@ fun compoundAssignmentOnCollection(){
     
     val newList = list + listOf(7 ,9)
 }
+
+fun unaryOperator(){
+    val point = Point(3, 5)
+    val negativePoint = -point
+}
+
+fun prePostSemantic(){
+    var bigDecimal = BigDecimal.ZERO
+    println(bigDecimal++)
+    println(++bigDecimal)
+}
+
 
 fun main(args: Array<String>) {
     pointPlus()
