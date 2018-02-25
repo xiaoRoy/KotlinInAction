@@ -28,3 +28,17 @@ operator fun Rectangle.contains(point: Point): Boolean{
     return point.x in upperLeft.x until lowerRight.x &&
             point.y in upperLeft.y until lowerRight.y
 }
+
+data class MyDate(val year: Int, val month: Int, val dayOfMonth: Int) : Comparable<MyDate>{
+    override fun compareTo(other: MyDate) = when {
+        year != other.year -> year - other.year
+        month != other.month -> month - other.month
+        else -> dayOfMonth - other.dayOfMonth
+    }
+}
+
+
+fun createRange(){
+    val dateRange = MyDate(2000, 1, 2).rangeTo(MyDate(2000, 4, 5))
+    val dataRangeB: ClosedRange<MyDate> = MyDate(2000, 1, 2)..(MyDate(2000, 4, 5))
+}
