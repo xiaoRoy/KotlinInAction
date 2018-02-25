@@ -21,3 +21,10 @@ operator fun MutablePoint.set(index: Int, value: Int){
         else -> throw IndexOutOfBoundsException("Invalid coordinate index:$index")
     }
 }
+
+data class Rectangle(val upperLeft: Point, val lowerRight: Point)
+
+operator fun Rectangle.contains(point: Point): Boolean{
+    return point.x in upperLeft.x until lowerRight.x &&
+            point.y in upperLeft.y until lowerRight.y
+}
