@@ -38,6 +38,14 @@ class Person(val name: String){
     }
 }
 
+class PersonWithLazy(val name: String){
+    val email by lazy { loadEmails(this) }
+}
+
+fun loadEmails(person: PersonWithLazy): List<Email>{
+    return listOf()
+}
+
 fun loadEmails(person: Person): List<Email>{
     return listOf()
 }
