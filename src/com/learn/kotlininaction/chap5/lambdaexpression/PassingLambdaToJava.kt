@@ -4,6 +4,17 @@ import java.util.concurrent.Callable
 
 fun runTask(){
     UseJavaFunctionalInterface.runTask { -> println("running task") }
+    testRunnable(Runnable{ println()})
+}
+
+
+/*
+* it seems that if you pass the lambda to java, it triggers the sam conventions.
+* but if you invoke the method has a functional interface, you need to use
+* SAM constructor to make explicit conversion of lambda to functional interface.
+* */
+fun testRunnable(runnable: Runnable){
+    runnable.run()
 }
 
 val runnable = Runnable { println("running task")}
