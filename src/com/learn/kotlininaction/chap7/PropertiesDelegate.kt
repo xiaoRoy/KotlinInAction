@@ -167,6 +167,29 @@ fun runPersonFinalVersion(){
     person.age ++
 }
 
+class PersonWithAttribute{
+
+    private val _attributes = hashMapOf<String, String>()
+
+    fun setAttribute(attributeName: String, attributeValue: String){
+        _attributes[attributeName] = attributeValue
+    }
+
+    val name: String
+    get() = _attributes["name"]!!
+
+}
+
+class PersonWithAttributeStandLibrary{
+
+    private val _attributes = hashMapOf<String, String>()
+
+    fun  setAttribute(attributeName: String, attributeValue: String){
+        _attributes[attributeName] = attributeValue
+    }
+
+    val name: String by _attributes
+}
 fun main(args: Array<String>) {
     runPersonAware()
 }
