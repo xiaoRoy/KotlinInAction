@@ -77,6 +77,48 @@ fun <T> Collection<T>.joinToStringNullFunction(separator: String = ", ", prefix:
     return result.toString()
 }
 
+enum class Delivery{STANDARD, EXPEDITED}
+
+class Order(val itemCount: Int)
+
+fun getShippingCostCalculator(delivery: Delivery):(Order) -> Double {
+    var result = {order: Order -> 1.2 * order.itemCount}
+    if(delivery == Delivery.EXPEDITED){
+        result = {order: Order ->  6 + 2.1 * order.itemCount }
+    }
+    return result
+}
+
+data class Contact constructor(val firstName: String, val lastName: String, val phoneNumber: String?)
+
+class ContactListFilter{
+    var prefix: String = ""
+    var onlyWithNumber: Boolean = false
+
+    fun getPredicate(): (Contact) -> Boolean{
+        val startWithPrefix = {
+            contact: Contact -> contact.firstName.startsWith(prefix)
+                                && contact.lastName.startsWith(prefix)
+        }
+        if(!onlyWithNumber){
+            return startWithPrefix
+        }
+        return {startWithPrefix(it) && it.phoneNumber != null}
+    }
+}
+
+fun filterContact(){
+    val contacts = listOf(Contact("Jack", "Blue", "123"),
+                            Contact("Bill", "Kyle", null),
+                            Contact("Ali", "Kate", "987"))
+    val filter = ContactListFilter()
+    with(filter){
+        prefix = "b"
+        onlyWithNumber = true
+    }
+    println(contacts.filter(filter.getPredicate()))
+}
+
 fun main(args: Array<String>) {
     val list = listOf("Alpha", "Beta")
     println(list.joinToString())
