@@ -38,6 +38,8 @@ fun lookForAliceWithLabelFunctionName(people: List<Person>){
     people.forEach {
         if(it.name == "Alice") {
             return@forEach
+        } else{
+            println("${it.name} is not Alice")
         }
     }
     println("Alice might be somewhere")
@@ -50,6 +52,13 @@ fun labelThis(){
         }
     }
     println(result)
+}
+
+fun lookForAliceAnonymous(people: List<Person>) {
+    people.forEach(fun(person) {
+        if (person.name == "Alice") return
+        println("${person.name} is not Alice")
+    })
 }
 
 fun main(args: Array<String>) {
