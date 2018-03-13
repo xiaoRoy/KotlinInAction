@@ -30,7 +30,7 @@ fun lookForAliceWithLabelName(people: List<Person>){
             return@label
         }
     }
-    println("Not Found!")
+    println("Alice might be somewhere")
 }
 
 
@@ -40,10 +40,20 @@ fun lookForAliceWithLabelFunctionName(people: List<Person>){
             return@forEach
         }
     }
-    println("Not Found!")
+    println("Alice might be somewhere")
+}
+
+fun labelThis(){
+    val result = StringBuilder().apply label@{
+        listOf(1, 2, 3).apply {
+            this@label.append(this.toString())
+        }
+    }
+    println(result)
 }
 
 fun main(args: Array<String>) {
     val people = listOf(Person("Smith"), Person("Alice"), Person("Sky"))
     lookForAliceWithLabelFunctionName(people)
+    labelThis();
 }
