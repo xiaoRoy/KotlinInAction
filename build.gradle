@@ -38,6 +38,8 @@ dependencies {
 
     // Use JUnit test framework
     testCompile 'junit:junit:4.12'
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testCompile 'org.mockito:mockito-core:2.18.3'
 }
 
 // In this section you declare where to find the dependencies of your project
@@ -45,4 +47,9 @@ repositories {
     // Use jcenter for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+}
+
+sourceSets {
+    main.kotlin.srcDirs += 'src/main/kotlin'
+    test.kotlin.srcDirs += 'src/test/kotlin'
 }
