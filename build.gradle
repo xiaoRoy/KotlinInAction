@@ -50,6 +50,13 @@ repositories {
 }
 
 sourceSets {
-    main.kotlin.srcDirs += 'src/main/kotlin'
-    test.kotlin.srcDirs += 'src/test/kotlin'
+//    main.kotlin.srcDirs += 'src/main/kotlin'
+//    test.kotlin.srcDirs += 'src/test/kotlin'
 }
+
+/*
+task hello {
+    doLast {
+        sourceSets.all {SourceSet sourceSet -> println(sourceSet.)}
+    }
+}*/
