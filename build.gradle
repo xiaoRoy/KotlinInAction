@@ -39,7 +39,8 @@ dependencies {
     // Use JUnit test framework
     testCompile 'junit:junit:4.12'
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-    testCompile 'org.mockito:mockito-core:2.18.3'
+//    testCompile 'org.mockito:mockito-core:2.18.3'
+    testCompile 'org.mockito:mockito-inline:2.18.3'
 }
 
 // In this section you declare where to find the dependencies of your project
