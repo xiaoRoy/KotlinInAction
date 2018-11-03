@@ -51,6 +51,17 @@ repositories {
 }
 
 sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', 'src/main/kotlin']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['test/main/java', 'test/main/kotlin']
+        }
+        
+    }
 //    main.kotlin.srcDirs += 'src/main/kotlin'
 //    test.kotlin.srcDirs += 'src/test/kotlin'
 }
