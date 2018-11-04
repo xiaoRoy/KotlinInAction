@@ -1,5 +1,11 @@
 package com.learn.kotlindoc.model;
 
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
+import javax.annotation.meta.When;
+import java.util.Set;
+
 public class PhoneJ {
 
     private String id;
@@ -28,7 +34,7 @@ public class PhoneJ {
         this.model = model;
     }
 
-    public boolean isHasNfc() {
+    public boolean hasNfc() {
         return hasNfc;
     }
 
@@ -50,5 +56,10 @@ public class PhoneJ {
 
     public void check() {
 
+    }
+
+    @Nonnull(when = When.ALWAYS)
+    public String getBrandModel() {
+        return String.format("%1$s,%2$s", this.brand, this.model);
     }
 }
