@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.meta.When;
+import java.util.HashSet;
 import java.util.Set;
 
 public class PhoneJ {
@@ -17,6 +18,8 @@ public class PhoneJ {
     private boolean hasNfc;
 
     private boolean isFullScreen;
+
+    private Set<String> colors = new HashSet<>();
 
     public String getBrand() {
         return brand;
@@ -52,6 +55,17 @@ public class PhoneJ {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Set<String> getColors() {
+        return colors;
+    }
+
+    public void setColors(Set<String> colors) {
+        if(colors != null){
+            this.colors.clear();
+            this.colors.addAll(colors);
+        }
     }
 
     public void check() {
