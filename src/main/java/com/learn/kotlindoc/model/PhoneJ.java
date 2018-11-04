@@ -19,6 +19,13 @@ public class PhoneJ {
 
     private boolean isFullScreen;
 
+    // null means price is not yet undecided
+    private Double price;
+
+    private int[] size = new int[2];
+
+    private String[] what = {};
+
     private Set<String> colors = new HashSet<>();
 
     public String getBrand() {
@@ -27,6 +34,11 @@ public class PhoneJ {
 
     public void setBrand(String brand) {
         this.brand = brand;
+//        canNotInitTheArray({1, 2});
+    }
+
+    private void canNotInitTheArray(int[] array) {
+
     }
 
     public String getModel() {
@@ -68,8 +80,32 @@ public class PhoneJ {
         }
     }
 
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
     public void check() {
 
+    }
+
+    public int[] getSize() {
+        return size;
+    }
+
+    public void setSize(int[] size) {
+        this.size = size;
+    }
+
+    public String[] getWhat() {
+        return what;
+    }
+
+    public void setWhat(String[] what) {
+        this.what = what;
     }
 
     @Nonnull(when = When.ALWAYS)

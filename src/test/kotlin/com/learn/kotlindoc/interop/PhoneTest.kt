@@ -28,6 +28,18 @@ class PhoneTest {
     }
 
     @Test
+    fun test_phone_size_int_array() {
+        val phone = PhoneJ()
+        assertTrue { phone.size is IntArray }
+    }
+
+    @Test
+    fun test_phone_what_string_array() {
+        val phone = PhoneJ()
+        assertTrue { phone.what is Array<String> }
+    }
+
+    @Test
     fun test_collection_mapped_type() {
         val phone = PhoneJ()
         assertTrue { phone.colors is Set<String> }
