@@ -63,6 +63,9 @@ fun filterLagerThanThree() {
     UseJavaFunctionalInterface.filer(11) {
         true
     }
+    UseJavaFunctionalInterface.filer(11) {
+        number -> number > 3
+    }
 }
 
 fun main(args: Array<String>) {
