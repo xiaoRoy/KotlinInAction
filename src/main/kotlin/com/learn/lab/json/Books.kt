@@ -20,7 +20,7 @@ class Book(
 }
 
 /*
-* With Property not include in JSON but without default value.
+* Model With Property not include in JSON but without default value.
 * */
 class BookB(
         @SerializedName("id") private val _id: String? = null,
