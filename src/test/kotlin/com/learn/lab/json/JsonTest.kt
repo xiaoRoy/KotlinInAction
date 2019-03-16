@@ -1,10 +1,14 @@
 package com.learn.lab.json
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParser
+import com.google.gson.stream.JsonReader
 import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
+import kotlin.test.assertFailsWith
 
 class JsonTest {
 
@@ -35,5 +39,13 @@ class JsonTest {
         val book = Gson().fromJson<BookB>(BOOK_JSON, BookB::class.java)
         expectedException.expect(NullPointerException::class.java)
         Assert.assertTrue(book.title.isNotEmpty())
+    }
+
+    @Test
+    fun test_json_with_property_not_include_in_json_without_default_value_using_kotlin_test_library() {
+        assertFailsWith<NullPointerException> {
+            val book = Gson().fromJson<BookB>(BOOK_JSON, BookB::class.java)
+            Assert.assertTrue(book.title.isNotEmpty())
+        }
     }
 }
