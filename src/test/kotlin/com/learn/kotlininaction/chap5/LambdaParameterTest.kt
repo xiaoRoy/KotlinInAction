@@ -17,6 +17,11 @@ class LambdaParameterTest {
         Assert.assertTrue(noParameter() == "Hello kotlin")
     }
 
+    @Test
+    fun test_no_parameter_with_arrow() {
+        val noParameter = { -> "Hello Kotlin" }
+        Assert.assertTrue(noParameter() == "Hello kotlin")
+    }
 
     @Test
     fun test_no_parameter_explicit() {

@@ -3,7 +3,6 @@ package com.learn.kotlininaction.chap11.receiver
 import org.junit.Assert
 import org.junit.Test
 import java.lang.StringBuilder
-import kotlin.test.assertTrue
 
 class TestLearnReceiver {
 
