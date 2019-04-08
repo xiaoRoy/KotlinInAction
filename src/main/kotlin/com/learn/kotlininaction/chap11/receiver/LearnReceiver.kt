@@ -16,5 +16,8 @@ fun buildStringB(
 ): String {
     val stringBuilder = StringBuilder()
     stringBuilder.action()
+    "".apply {  }
     return stringBuilder.toString()
 }
+
+val sum: Int.(Int) -> Int = { other -> plus(other) }
