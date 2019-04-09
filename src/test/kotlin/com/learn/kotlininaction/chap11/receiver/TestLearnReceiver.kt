@@ -40,4 +40,18 @@ class TestLearnReceiver {
         Assert.assertEquals(4, anotherResult)
     }
 
+    @Test
+    fun test_repeatString() {
+        val transformation: (String, Int) -> String = { text, times -> text.repeat(times) }
+        val result = doTransformation(transformation)
+        Assert.assertEquals("hellohellohello", result)
+    }
+
+    @Test
+    fun test_repeatString_withReceiver() {
+        val transformation: String.(Int) -> String = { times -> repeat(times) }
+        val result = doTransformation(transformation)
+        Assert.assertEquals("hellohellohello", result)
+    }
+
 }

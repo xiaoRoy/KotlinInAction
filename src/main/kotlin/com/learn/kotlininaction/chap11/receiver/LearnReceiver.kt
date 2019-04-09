@@ -16,8 +16,14 @@ fun buildStringB(
 ): String {
     val stringBuilder = StringBuilder()
     stringBuilder.action()
-    "".apply {  }
     return stringBuilder.toString()
 }
 
 val sum: Int.(Int) -> Int = { other -> plus(other) }
+
+val repeatText: String.(Int) -> String = { times -> repeat(times) }
+
+
+fun doTransformation(transformer: (String, Int) -> String): String {
+    return transformer("hello", 3)
+}
