@@ -2,8 +2,8 @@ package com.learn.kotlindoc.scopefunc
 
 private class Person(
         val name: String,
-        var age: Int,
-        address: String
+        var age: Int = 0,
+        address: String = "unknown"
 ) {
     var address: String
         private set
@@ -39,6 +39,15 @@ private fun showAliceInfoWithLet() {
     }
 }
 
+private fun showAliceUsingAlso() {
+    Person("Alice", 20, "LA").also {
+        println(it)
+        it.increaseAge()
+        it.moveTo("New York")
+        println(it)
+    }
+}
+
 private fun showAliceInfoWithRun() {
     Person("Alice", 20, "LA").run {
         println(this)
@@ -58,10 +67,19 @@ private fun showAliceUsingWith() {
 }
 
 private fun showAliceUsingApply() {
-    Person("Alice", 20, "LA").apply { 
+    Person("Alice", 20, "LA").apply {
         println(this)
         increaseAge()
         moveTo("New York")
         println(this)
     }
+}
+
+/*
+* this (run, with and apply)is recommended for lambdas that mainly operate on the object members
+* */
+
+private val adam = Person("adam").apply {
+    age = 11
+    moveTo("Beijing")
 }
