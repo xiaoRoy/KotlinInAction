@@ -14,13 +14,13 @@ class LambdaParameterTest {
     @Test
     fun test_no_parameter() {
         val noParameter: () -> String = { "Hello Kotlin" }
-        Assert.assertTrue(noParameter() == "Hello kotlin")
+        Assert.assertTrue(noParameter() == "Hello Kotlin")
     }
 
     @Test
     fun test_no_parameter_with_arrow() {
         val noParameter = { -> "Hello Kotlin" }
-        Assert.assertTrue(noParameter() == "Hello kotlin")
+        Assert.assertTrue(noParameter() == "Hello Kotlin")
     }
 
     @Test
