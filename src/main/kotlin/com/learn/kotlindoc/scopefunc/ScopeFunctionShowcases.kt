@@ -18,9 +18,11 @@ private class Person(
         this.address = address
     }
 
-    fun increaseAge() {
-        age++
+    fun increaseAge(): Int {
+        return ++age
     }
+
+
 }
 
 
@@ -216,5 +218,22 @@ private fun getTheFirstAndLastInfoUsingRun(list: List<String>): String {
         "The first element is ${first()}, " +
                 " the last element is ${last()}"
     }
+}
 
+//end of with
+
+//start of with
+
+private fun showRunWithInitializationAndComputation() {
+    val currentAge = Person("Smith", 21).run {
+        moveTo("London")
+        increaseAge()
+    }
+}
+
+private fun showLetWithInitializationAndComputation() {
+    val currentAge = Person("Smith", 21).let {
+        it.moveTo("London")
+        it.increaseAge()
+    }
 }
