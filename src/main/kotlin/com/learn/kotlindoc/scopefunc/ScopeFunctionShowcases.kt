@@ -222,7 +222,7 @@ private fun getTheFirstAndLastInfoUsingRun(list: List<String>): String {
 
 //end of with
 
-//start of with
+//start of run
 
 private fun showRunWithInitializationAndComputation() {
     val currentAge = Person("Smith", 21).run {
@@ -236,4 +236,18 @@ private fun showLetWithInitializationAndComputation() {
         it.moveTo("London")
         it.increaseAge()
     }
+}
+
+private fun hexNumberRegexNotUsingRun(): Regex {
+    val digits = "0-9"
+    val hexDigits = "A-Fa-f"
+    val sign = "+-"
+    return Regex("[$sign]?[$digits$hexDigits]+")
+}
+
+private fun hexNumberRegex() = run {
+    val digits = "0-9"
+    val hexDigits = "A-Fa-f"
+    val sign = "+-"
+    Regex("[$sign]?[$digits$hexDigits]+")
 }
