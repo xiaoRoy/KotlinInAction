@@ -238,6 +238,9 @@ private fun showLetWithInitializationAndComputation() {
     }
 }
 
+/*
+* Non- extension run lets you execute a block of several statements where an expression is required.
+* */
 private fun hexNumberRegexNotUsingRun(): Regex {
     val digits = "0-9"
     val hexDigits = "A-Fa-f"
@@ -251,3 +254,24 @@ private fun hexNumberRegex() = run {
     val sign = "+-"
     Regex("[$sign]?[$digits$hexDigits]+")
 }
+
+//end of run
+
+//start of apply
+
+private fun getPersonInfo(): Person = Person("Black").apply {
+    age = 22
+    moveTo("Beijing")
+}
+
+//end of apply
+
+//start of also
+private fun showNumber() {
+    val numbers = mutableListOf("one", "two", "three")
+    numbers
+            .also { println("The size of list before adding new one: {${it.size}}") }
+            .add("four")
+}
+
+//end of also
