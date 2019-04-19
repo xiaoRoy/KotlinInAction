@@ -275,3 +275,19 @@ private fun showNumber() {
 }
 
 //end of also
+
+private fun displaySubStringPosition(input: String, sub: String) {
+    val index = input.indexOf(sub)
+    if(index > -1) {
+        println("The sub-string $sub is found in $input")
+        println("Its start position is $index")
+    }
+}
+
+private fun displaySubStringPositionUsingScopeFunction(input: String, sub: String) {
+    input.indexOf(sub).takeIf { it >= 0 }?.let {
+        println("The sub-string $sub is found in $input")
+        println("Its start position is $it")
+    }
+}
+
