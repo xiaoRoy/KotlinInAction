@@ -1,5 +1,6 @@
 package com.learn.kotlindoc.scopefunc
 
+import java.lang.StringBuilder
 import kotlin.random.Random
 
 private class Person(
@@ -276,9 +277,11 @@ private fun showNumber() {
 
 //end of also
 
+
+//start of takeIf and takeUnless
 private fun displaySubStringPosition(input: String, sub: String) {
     val index = input.indexOf(sub)
-    if(index > -1) {
+    if (index > -1) {
         println("The sub-string $sub is found in $input")
         println("Its start position is $index")
     }
@@ -290,4 +293,35 @@ private fun displaySubStringPositionUsingScopeFunction(input: String, sub: Strin
         println("Its start position is $it")
     }
 }
+//end of takeIf and takeUnless
 
+/*
+when to ues let
+Introducing an expression as a variable in local scope
+*/
+
+
+private fun addThePostfix(input: String, suffix: String = "..."): String {
+    val transformed = input.let {
+        val isMoreThanFive = isMoreThanFive(it)
+        if (isMoreThanFive) repeat(it) else reverse(it)
+    }
+    return "$transformed$suffix"
+}
+
+private fun addThePostfixNotUsingLet(input: String, suffix: String = "..."): String {
+    val isMoreThanFive = isMoreThanFive(input)
+    val transformed = if (isMoreThanFive) repeat(input) else reverse(input)
+    return "$transformed$suffix"
+
+}
+
+private fun repeat(input: String): String {
+    return StringBuilder(input).repeat(2)
+}
+
+private fun reverse(input: String): String {
+    return StringBuilder(input).reverse().toString()
+}
+
+private fun isMoreThanFive(input: String): Boolean = input.length > 5
