@@ -38,3 +38,11 @@ class BookB(
     val author: String
         get() = _author ?: ""
 }
+
+class BookC(
+        val id: String = "",
+        val title: String = "",
+        val pageCount: Int = 0,
+        val author: String? = null,
+        val publisher: String
+)
