@@ -10,7 +10,7 @@ import org.junit.Test
 import org.junit.rules.ExpectedException
 import kotlin.test.assertFailsWith
 
-class JsonTest {
+class BookJsonTest {
 
     private companion object {
         private const val BOOK_JSON: String = """{"id":"2322","title":"Harry Potter", "pageCount": 345, "author":null}"""
@@ -47,5 +47,11 @@ class JsonTest {
             val book = Gson().fromJson<BookB>(BOOK_JSON, BookB::class.java)
             Assert.assertTrue(book.title.isNotEmpty())
         }
+    }
+
+    @Test
+    fun test_parseJson_notUseBackingProperty() {
+        val book = Gson().fromJson<BookC>(BOOK_JSON, BookC::class.java)
+        Assert.assertNull(book.author)
     }
 }
