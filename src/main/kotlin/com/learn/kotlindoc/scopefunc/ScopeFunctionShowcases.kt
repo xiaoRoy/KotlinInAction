@@ -325,3 +325,33 @@ private fun reverse(input: String): String {
 }
 
 private fun isMoreThanFive(input: String): Boolean = input.length > 5
+
+private class Article(
+        val title: String,
+        val author: String,
+        var content: String = ""
+) {
+    val count: Int
+        get() = content.length
+}
+
+fun alphabet(): String = StringBuilder().run {
+    for(letter in 'A'..'Z') {
+        if(letter != 'A') {
+            append(",")
+        }
+        append(letter)
+    }
+    toString()
+}
+
+fun alphabetNotUseRun(): String {
+    val stringBuilder = StringBuilder()
+    for(letter in 'A'..'Z') {
+        if(letter != 'A') {
+            stringBuilder.append(",")
+        }
+        stringBuilder.append(letter)
+    }
+    return stringBuilder.toString()
+}
