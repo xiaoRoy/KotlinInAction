@@ -91,7 +91,7 @@ private val adam = Person("adam").apply {
 
 
 /*
-* hey can be included into call chains as side steps:
+* they can be included into call chains as side steps:
 * you can continue chaining function calls on the same object after them.
 * */
 private fun generateAlphabet(): List<String> {
@@ -372,4 +372,16 @@ fun alphabetNotUseRun(): String {
         stringBuilder.append(letter)
     }
     return stringBuilder.toString()
+}
+
+private fun loadPhoneNumber(): String? = null
+
+private fun callSomeOne(): Unit {
+    val isConnected: Boolean = loadPhoneNumber()?.let {
+        phoneNumber ->  makePhoneCall(phoneNumber)
+    } ?: false
+}
+
+private fun makePhoneCall(phoneNumber: String): Boolean {
+    return false
 }
