@@ -377,11 +377,35 @@ fun alphabetNotUseRun(): String {
 private fun loadPhoneNumber(): String? = null
 
 private fun callSomeOne(): Unit {
-    val isConnected: Boolean = loadPhoneNumber()?.let {
-        phoneNumber ->  makePhoneCall(phoneNumber)
+    val isConnected: Boolean = loadPhoneNumber()?.let { phoneNumber ->
+        makePhoneCall(phoneNumber)
     } ?: false
 }
 
 private fun makePhoneCall(phoneNumber: String): Boolean {
+
     return false
+}
+
+private fun generateRandomNumberList(size: Int = 5): List<Int> =
+        mutableListOf<Int>().apply {
+            for (index in 0 until size) {
+                add(Random.nextInt())
+            }
+            sort()
+        }
+
+private fun generateRandomNumberListUsingRepeat(size: Int = 5): List<Int> =
+        mutableListOf<Int>().apply {
+            repeat(size) { add(Random.nextInt()) }
+            sort()
+        }
+
+private fun generateRandomNumberListNotUsingApply(size: Int = 5): List<Int> {
+    val numbers = mutableListOf<Int>()
+    for (index in 0 until size) {
+        numbers.add(Random.nextInt())
+    }
+    numbers.sort()
+    return numbers
 }
