@@ -1,6 +1,9 @@
 package com.learn.kotlindoc.scopefunc
 
+import java.awt.Rectangle
 import java.lang.StringBuilder
+import java.util.*
+import java.util.Arrays.sort
 import kotlin.random.Random
 
 private class Person(
@@ -409,3 +412,27 @@ private fun generateRandomNumberListNotUsingApply(size: Int = 5): List<Int> {
     numbers.sort()
     return numbers
 }
+
+fun calculateScore(scores: List<Double>): Double = scores.sorted().run {
+    sum() - first() - last()
+}
+
+
+fun calculateScoreNotUsingRun(scores: List<Double>): Double {
+    val sortedList = scores.sorted()
+    return sortedList.sum() + sortedList.first() + sortedList.last()
+}
+
+fun showArticle(article: Article) {
+    /*...*/
+    with(article) {
+        val hasContent = content.isNotEmpty()
+        if (hasContent) {
+            val articleInfo = "The title is $title and belongs to category:$category"
+            showArticleInfo(articleInfo)
+        }
+    }
+    /*...*/
+}
+
+private fun showArticleInfo(articleInfo: String) = Unit
