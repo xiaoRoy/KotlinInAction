@@ -2,7 +2,7 @@ package com.learn.demo.couplebuilder
 
 class CoupleRegistry(
         val id: String,
-        val registryGift: RegistryGift?,
+        val registryGifts: List<RegistryGift> = emptyList(),
         val registryType: Int
 ) {
 
