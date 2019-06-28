@@ -32,6 +32,7 @@ plugins {
 // }
 ext {
     gson_version = '2.8.5'
+    mock_k_version = '1.9.3'
 }
 
 dependencies {
@@ -45,6 +46,7 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 //    testCompile 'org.mockito:mockito-core:2.18.3'
     testCompile 'org.mockito:mockito-inline:2.18.3'
+    testImplementation "io.mockk:mockk:$mock_k_version"
 }
 
 // In this section you declare where to find the dependencies of your project
