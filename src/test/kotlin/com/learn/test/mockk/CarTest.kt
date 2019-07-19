@@ -5,8 +5,6 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Test
 
-import org.junit.Assert.*
-
 class CarTest {
 
     @Test
