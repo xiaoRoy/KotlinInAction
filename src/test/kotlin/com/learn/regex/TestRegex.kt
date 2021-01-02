@@ -17,7 +17,7 @@ class TestRegex {
 
         val second = "abcde"
         val foundSecond = regex.containsMatchIn(second)
-        assertTrue (foundSecond)
+        assertTrue(foundSecond)
     }
 
     @Test
@@ -99,7 +99,43 @@ class TestRegex {
     fun test_H2() {
         val regex = """^##[^#]""".toRegex()
         val target = "#### what"
-        val result =regex.containsMatchIn(target)
+        val result = regex.containsMatchIn(target)
         assertFalse(result)
+    }
+
+    @Test
+    fun test_matchSpecificCharacter() {
+        val regex = """[cmf]an""".toRegex()
+        val targets = listOf("can", "man", "fan", "dan", "ran", "pan")
+        val result = targets.map { regex.matches(it) }.count { it }
+        assertEquals(3, result)
+    }
+
+    @Test
+    fun test_excludeSpecificCharacter() {
+        val regex = """[^b]og""".toRegex()
+        val target = "bog"
+        val result = regex.matches(target)
+        assertFalse(result)
+    }
+
+    @Test
+    fun test_matchCharacterRange() {
+        val regex = """[A-C][^a-c][a-c]""".toRegex()
+        val target = "Adb"
+        val result = regex.matches(target)
+        assertTrue(result)
+    }
+
+    @Test
+    fun test_matchRepetition() {
+        val regex = """.{2,6}""".toRegex()
+        val target = listOf("he", "has", "four","pears","apples")
+        val result = target.all { regex.matches(it) }
+        assertTrue(result)
+
+        val second = listOf("a", "difficult")
+        val secondResult = second.none { regex.matches(it) }
+        assertTrue(secondResult)
     }
 }
