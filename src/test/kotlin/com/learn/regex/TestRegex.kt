@@ -3,6 +3,7 @@ package com.learn.regex
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class TestRegex {
@@ -32,6 +33,25 @@ class TestRegex {
     }
 
     @Test
+    fun test_matchWhat() {
+//        val regex = """<a class='anchor-tag' name='[1-9][0-9]'></a>\\n""".toRegex()
+        val regex = """<a class='anchor-tag' name='[1-9][0-9]*'></a>\\n""".toRegex()
+        val first = """what <a class='anchor-tag' name='1'></a>\n is"""
+        val matchResult = regex.find(first)
+        assertNotNull(matchResult)
+        matchResult.value
+    }
+
+    @Test
+    fun test_what() {
+        val regex = """'[1-9][0-9]'""".toRegex()
+        val first = """abc'12'abc"""
+        val matchResult = regex.containsMatchIn(first)
+        assertTrue(matchResult)
+    }
+
+
+    @Test
     fun test_matchNonNumber() {
         val regex = """\D""".toRegex()
         val allNumbers = "44123"
@@ -53,5 +73,33 @@ class TestRegex {
 
         val notMatched = regex.containsMatchIn("How are you?")
         assertFalse(notMatched)
+    }
+
+    @Test
+    fun test_space() {
+        val what = "**CD:&nbsp;** I get"
+        val result = what.contains("&nbsp;**")
+        assertTrue(result)
+
+        val where = "**CD: ** I get"
+        val test = "**CD: ** I waited until my daughter was two months old to start the business. If I had to do it over again, I would have started the minute we had the idea."
+        val how = " **"
+        val secondResult = test.contains(how)
+        assertTrue(secondResult)
+    }
+
+    @Test
+    fun test_replaceAnyCharacter() {
+        val regex = """[&,’-]""".toRegex()
+        val result = regex.replace("abc-", "")
+        assertEquals("abc", result)
+    }
+
+    @Test
+    fun test_H2() {
+        val regex = """^##[^#]""".toRegex()
+        val target = "#### what"
+        val result =regex.containsMatchIn(target)
+        assertFalse(result)
     }
 }
