@@ -150,4 +150,12 @@ class TestRegex {
         val anotherResult = regex.matches(another)
         assertFalse(anotherResult)
     }
+
+    @Test
+    fun test_matchOptionalCharacter() {
+        val regex = """\d+ files? found\?""".toRegex()
+        val targets = listOf("1 file found?", "2 files found?", "24 files found?")
+        val result = targets.all { regex.matches(it) }
+        assertTrue(result)
+    }
 }
