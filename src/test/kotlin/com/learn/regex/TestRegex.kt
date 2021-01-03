@@ -158,4 +158,29 @@ class TestRegex {
         val result = targets.all { regex.matches(it) }
         assertTrue(result)
     }
+
+    @Test
+    fun test_matchWhitSpace() {
+        val regex = """a\sb""".toRegex()
+        val targets = listOf("a b", "a\u0020b", "a\nb", "a\rb", )
+        val result = targets.all { regex.matches(it) }
+        assertTrue(result)
+
+        val secondTarget = "a\u00a0b"//$#nbsp
+        val secondResult = regex.matches(secondTarget)
+        assertFalse(secondResult)
+    }
+
+    @Test
+    fun test_matchStarting() {
+        val regex = """^M""".toRegex()
+        val first = "Miss Liu"
+        val result = regex.containsMatchIn(first)
+        assertTrue(result)
+
+        val anotherRegex = """^M.*""".toRegex()
+        val isAllMatch = anotherRegex.matches(first)
+        assertTrue(isAllMatch)
+    }
+
 }
