@@ -138,4 +138,16 @@ class TestRegex {
         val secondResult = second.none { regex.matches(it) }
         assertTrue(secondResult)
     }
+
+    @Test
+    fun test_matchZeroOneMore() {
+        val regex = """aa*b*c+""".toRegex()
+        val target = listOf("aaaabcc", "aabbbbc", "aacc")
+        val result = target.all { regex.matches(it) }
+        assertTrue(result)
+
+        val another = "a"
+        val anotherResult = regex.matches(another)
+        assertFalse(anotherResult)
+    }
 }
