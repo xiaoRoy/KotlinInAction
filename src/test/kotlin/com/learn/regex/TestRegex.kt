@@ -183,4 +183,17 @@ class TestRegex {
         assertTrue(isAllMatch)
     }
 
+
+    @Test
+    fun test_matchGroup() {
+        val regex = """(^file_.+)\.pdf$""".toRegex()
+        val targets = listOf("file_record_transcript.pdf", "file_07241999.pdf")
+        val result = targets.all { regex.containsMatchIn(it) }
+        assertTrue(result)
+
+        val secondRegex = """(file_.+)\.pdf""".toRegex()
+        val secondTarget = "what file_record_transcript.pdf file_07241999.pdf"
+        val secondResult = secondRegex.containsMatchIn(secondTarget)
+        assertTrue(secondResult)
+    }
 }
