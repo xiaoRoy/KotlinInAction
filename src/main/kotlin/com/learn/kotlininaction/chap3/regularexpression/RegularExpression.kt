@@ -8,43 +8,43 @@ package com.learn.kotlininaction.chap3.regularexpression
 const val TEXT_TO_SPLIT = "12.345-6.A"
 const val FILE_PTAH = "/Users/yole/kotlin-book/chapter.txt"
 
-fun splitExample(){
+fun splitExample() {
     val result = TEXT_TO_SPLIT.split("\\.|-".toRegex())
     print(result)
 }
 
-fun splitExampleA(){
+fun splitExampleA() {
     val result = TEXT_TO_SPLIT.split(".", "-")
     print(result)
 }
 
-fun parsePath(path: String){
+fun parsePath(path: String): Triple<String, String, String> {
     val directory = path.substringBeforeLast("/")
     val fullName = path.substringAfterLast("/")
 
     val fileName = fullName.substringBeforeLast(".")
     val extension = fullName.substringAfterLast(".")
 
-    println("Directory:$directory, File Name:$fileName, Extension:$extension")
+    return Triple(directory, fileName, extension)
 }
 
-fun parsePathRegex(path: String){
+fun parsePathRegex(path: String) {
     val regex = """(.+)/(.+)\.(.+)""".toRegex()
     val matchResult = regex.matchEntire(path)
-    if(matchResult != null){
-        val(directory, fileName, extension) = matchResult.destructured
+    if (matchResult != null) {
+        val (directory, fileName, extension) = matchResult.destructured
         println("Directory:$directory, File Name:$fileName, Extension:$extension")
     }
 }
 
-fun printKotlinLogo(){
+fun printKotlinLogo() {
     val kotlinLogo = """| //
                        .|//
                        .|/ \"""
     println(kotlinLogo.trimMargin("."))
 }
 
-fun printPrice(){
+fun printPrice() {
     val price = """${'$'}99.9"""
     println(price)
 }
