@@ -12,8 +12,9 @@ class ProductDetailPresenter(
         val variantCount = allProductSkuVariantsGroupByVariantName.size
         val notAvailableProductSkuVariantsGroupByVariantName = mutableMapOf<String, MutableList<String>>()
         if (variantCount > 1) {
+            val what: (ProductSku) -> Iterable<Map.Entry<String, String>> = { productSku: ProductSku -> productSku.variants.entries}
             val allProductSkuVariants = allProductSkus
-                    .flatMap { it.variants.entries }
+                    .flatMap (what)
                     .distinct()
             allProductSkuVariants.forEach { variantEntry ->
                 val hasAvailableVariant = allProductSkus
@@ -26,6 +27,8 @@ class ProductDetailPresenter(
             }
         }
     }
+
+    private val what: (ProductSku) -> Iterable<Map.Entry<String, String>> = { productSku: ProductSku -> productSku.variants.entries}
 
     /*private fun generateAllVariantCombinations(){
 
@@ -49,7 +52,7 @@ class ProductDetailPresenter(
         val result = mutableMapOf<String, MutableList<String>>()
         if (allProductSkus.size > oneSku) {
             allProductSkus
-                    .flatMap { it.variants.entries }
+                    .flatMap (what)
                     .distinct()
                     .groupByTo(result, { it.key }, { it.value })
         }

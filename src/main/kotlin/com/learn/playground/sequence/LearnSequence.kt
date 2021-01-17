@@ -9,13 +9,13 @@ fun mapToMaps() {
     val mapD = mapOf("size" to "M", "color" to "yellow")
     val variants = listOf(mapA, mapB, mapC, mapD)
     val resultMap = mutableMapOf<String, MutableList<String>>()
-
+    val transformation: (Map<String, String>) -> Iterable<Map.Entry<String, String>> = { it.entries }
     val result:Map<String, List<String>> = variants
-            .flatMap { it.entries }
+            .flatMap (transformation)
             .distinct()
             .groupByTo(resultMap, {it.key}, {it.value})
 
-    variants.flatMap { it.entries }.forEach{
+    variants.flatMap(transformation).forEach{
         println("${it.key}: ${it.value}")
     }
     print(result)

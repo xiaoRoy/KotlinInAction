@@ -64,13 +64,16 @@ data class Book(val title: String, val authors: List<String>)
 fun flatMap(){
     val alphabetic = listOf("abc", "def", "gh")
     val resultMap: List<List<Char>> = alphabetic.map { it.toList() }
-    val resultFlatMap: List<Char> = alphabetic.flatMap { it.toList() }
+    val transformation: (String) -> Iterable<Char> =  { it.toList() }
+    val resultFlatMap: List<Char> = alphabetic.flatMap (transformation)
+    alphabetic.flatMap(transformation)
 }
 
 fun flatMapBook(){
     val books = listOf(Book("Thursday Next", listOf("Jasper Fo")),
                         Book("Mort", listOf("Terry Pratchett")), Book("Good Omens", listOf("Terry Pratchett","Neal Gaiman")))
-    books.flatMap { it.authors.toList() }.toSet()
+    val booksTransformation: (Book) -> Iterable<String> = { book: Book -> book.authors.toList() }
+    books.flatMap(booksTransformation).toSet()
 
 }
 fun main(args: Array<String>) {
