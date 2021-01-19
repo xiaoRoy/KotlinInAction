@@ -1,16 +1,14 @@
 package com.learn.kotlindoc.coroutines.basic
 
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 
 suspend fun main() {
 //    first()
 //    second()
 //    third()
 //    fourth()
-    thirdPlus()
+//    thirdPlus()
+    fifth()
 }
 
 
@@ -64,3 +62,29 @@ private suspend fun fourth() {
     println(HELLO)
     job.join()
 }
+
+/*
+* scope builder
+* */
+
+fun fifth() {
+    runBlocking {
+        launch {
+            delay(200L)
+            println("Task from runBlocking")
+        }
+
+        coroutineScope {
+            launch {
+                delay(500L)
+                println("Task from nested launch")
+            }
+            delay(100L)
+            println("Task from coroutine scope")
+        }
+
+        println("coroutine scope is over")
+    }
+}
+
+
