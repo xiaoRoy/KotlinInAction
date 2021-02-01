@@ -1,6 +1,7 @@
 package com.learn.tutorial.coroutine.chap4
 
 import com.learn.tutorial.coroutine.chap3.readFileByPath
+import com.learn.tutorial.coroutine.showCurrentThreadName
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -12,7 +13,8 @@ import kotlin.coroutines.suspendCoroutine
 
 fun main() {
 //    daemonThread()
-    showUser("44")
+//    showUser("44")
+    displayUserSecond()
 }
 
 private fun daemonThread() {
@@ -52,7 +54,7 @@ private fun getUserSecond(userId: String,
 
 private suspend fun getUserThird(userId: String): User {
     delay(1000L)
-    return  User(userId, "no one")
+    return User(userId, "no one")
 }
 
 private fun showUser(userId: String) {
@@ -70,5 +72,20 @@ private suspend fun readFile(path: String): File {
         readFileByPath(path) { file ->
             it.resume(file)
         }
+    }
+}
+
+private fun displayUserSecond() {
+    executeInBackground {
+        showCurrentThreadName()
+        val user = getUser("32")
+
+        executeInMain {
+            showCurrentThreadName()
+            println("I am ${user.name}!")
+        }
+    }
+    runBlocking {
+        delay(2000L)
     }
 }
