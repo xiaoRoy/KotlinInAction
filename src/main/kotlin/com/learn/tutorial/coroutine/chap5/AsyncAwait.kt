@@ -121,3 +121,12 @@ private fun getUserCooperativeAsync(userId: Int, parentScope: CoroutineScope):De
         }
     }
 }
+
+
+private fun learnCustomScope() {
+    val scope = CustomScope()
+    scope.launch {
+        println("Launching in custom scope")
+    }
+    scope.onStop()
+}
