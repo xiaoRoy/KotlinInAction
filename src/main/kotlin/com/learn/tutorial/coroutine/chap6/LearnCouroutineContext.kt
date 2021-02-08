@@ -1,8 +1,11 @@
 package com.learn.tutorial.coroutine.chap6
 
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import com.learn.tutorial.coroutine.showCurrentThreadName
+import kotlinx.coroutines.*
+
+fun main() {
+    firstContext()
+}
 
 private fun firstContext() {
     val defaultDispatcher = Dispatchers.Default
@@ -12,5 +15,19 @@ private fun firstContext() {
     val emptyParentJob = Job()
 
     val firstContext = defaultDispatcher + coroutineErrorHandler + emptyParentJob
+
+    GlobalScope.launch(context = firstContext) {
+        throwError()
+        showCurrentThreadName()
+    }
+
+    runBlocking {
+        delay(100)
+    }
+
+}
+
+private suspend fun throwError() {
+    throw IllegalArgumentException()
 }
 
