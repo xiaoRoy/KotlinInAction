@@ -47,7 +47,8 @@ private fun third() = runBlocking {
 }
 
 private fun thirdPlus() = runBlocking {
-    launch {
+    val scope: CoroutineScope = this
+    scope.launch {
         delay(1000L)
         println(WORLD)
     }
