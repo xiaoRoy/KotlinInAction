@@ -70,13 +70,24 @@ private suspend fun fourth() {
 
 fun fifth() {
     runBlocking {
-        launch {
+        val scope: CoroutineScope = this
+        scope.launch {
             delay(200L)
             println("Task from runBlocking")
         }
+        /*val block: suspend (CoroutineScope) -> Unit = {
+            it.launch {
+                delay(500L)
+                println("Task from nested launch")
+            }
+            delay(100L)
+            println("Task from coroutine scope")
+        }
+        coroutineScope(block)*/
 
         coroutineScope {
-            launch {
+            val anotherScope = this
+            anotherScope.launch {
                 delay(500L)
                 println("Task from nested launch")
             }
