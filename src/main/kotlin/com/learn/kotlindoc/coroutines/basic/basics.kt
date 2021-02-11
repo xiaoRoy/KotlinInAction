@@ -46,6 +46,7 @@ private fun third() = runBlocking {
     delay(2000L)
 }
 
+//Structured concurrency
 private fun thirdPlus() = runBlocking {
     val scope: CoroutineScope = this
     scope.launch {
@@ -97,6 +98,24 @@ fun fifth() {
 
         println("coroutine scope is over")
     }
+}
+
+fun firstSuspend() = runBlocking {
+    val scope = this
+    scope.launch {
+        printWorld()
+    }
+    println(HELLO)
+}
+
+private suspend fun printWorld() {
+    delay(1000L)
+    println(WORLD)
+}
+
+private suspend fun printWorldWithScope(scope: CoroutineScope) {
+    delay(1000L)
+    println(WORLD)
 }
 
 

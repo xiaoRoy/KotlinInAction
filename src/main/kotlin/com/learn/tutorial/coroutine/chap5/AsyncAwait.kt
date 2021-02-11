@@ -130,3 +130,13 @@ private fun learnCustomScope() {
     }
     scope.onStop()
 }
+
+private fun wontCancel() {
+    val job = GlobalScope.launch {
+
+        GlobalScope.launch {
+            //won't be canceled.
+        }
+    }
+    job.cancel()
+}
