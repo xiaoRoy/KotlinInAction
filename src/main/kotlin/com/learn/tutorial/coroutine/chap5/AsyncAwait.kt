@@ -5,7 +5,8 @@ import java.io.File
 
 fun main() {
 //    displayUser()
-    checkUser(992)
+//    checkUser(992)
+    notCancelled()
 }
 
 
@@ -84,7 +85,7 @@ private fun checkUser(id: Int) {
         println("Finding User")
         val hasFound = user in allUsers
 
-        if(hasFound) {
+        if (hasFound) {
             println("Found user in file")
         } else {
             println("User not found")
@@ -94,4 +95,48 @@ private fun checkUser(id: Int) {
     runBlocking {
         delay(7000L)
     }
+}
+
+private fun notCancelled() {
+    val job = GlobalScope.launch {
+        val userDeferred = getUserCooperativeAsync(123, this)
+        println("Not cancelled")
+        println("User name is ${userDeferred.await().name}")
+    }
+    runBlocking { delay(50L) }
+    job.cancel()
+    runBlocking { delay(7000L) }
+}
+
+
+private fun getUserCooperativeAsync(userId: Int, parentScope: CoroutineScope):Deferred<User> {
+    return parentScope.async {
+        if (isActive) {
+            println("Retrieving User From network")
+            delay(3000L)
+            println("still in coroutine")
+            User(userId, "Mary", "Jane")
+        } else {
+            User(0, "", "")
+        }
+    }
+}
+
+
+private fun learnCustomScope() {
+    val scope = CustomScope()
+    scope.launch {
+        println("Launching in custom scope")
+    }
+    scope.onStop()
+}
+
+private fun wontCancel() {
+    val job = GlobalScope.launch {
+
+        GlobalScope.launch {
+            //won't be canceled.
+        }
+    }
+    job.cancel()
 }

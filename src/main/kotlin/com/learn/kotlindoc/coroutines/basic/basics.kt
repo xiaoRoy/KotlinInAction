@@ -46,8 +46,10 @@ private fun third() = runBlocking {
     delay(2000L)
 }
 
+//Structured concurrency
 private fun thirdPlus() = runBlocking {
-    launch {
+    val scope: CoroutineScope = this
+    scope.launch {
         delay(1000L)
         println(WORLD)
     }
@@ -69,13 +71,24 @@ private suspend fun fourth() {
 
 fun fifth() {
     runBlocking {
-        launch {
+        val scope: CoroutineScope = this
+        scope.launch {
             delay(200L)
             println("Task from runBlocking")
         }
+        /*val block: suspend (CoroutineScope) -> Unit = {
+            it.launch {
+                delay(500L)
+                println("Task from nested launch")
+            }
+            delay(100L)
+            println("Task from coroutine scope")
+        }
+        coroutineScope(block)*/
 
         coroutineScope {
-            launch {
+            val anotherScope = this
+            anotherScope.launch {
                 delay(500L)
                 println("Task from nested launch")
             }
@@ -85,6 +98,24 @@ fun fifth() {
 
         println("coroutine scope is over")
     }
+}
+
+fun firstSuspend() = runBlocking {
+    val scope = this
+    scope.launch {
+        printWorld()
+    }
+    println(HELLO)
+}
+
+private suspend fun printWorld() {
+    delay(1000L)
+    println(WORLD)
+}
+
+private suspend fun printWorldWithScope(scope: CoroutineScope) {
+    delay(1000L)
+    println(WORLD)
 }
 
 
