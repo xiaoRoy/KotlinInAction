@@ -5,7 +5,9 @@ import kotlinx.coroutines.*
 
 fun main() {
 //    cancelCoroutine()
-    showCancellation()
+//    showCancellation()
+//    checkJobActive()
+    runNonCancellable()
 }
 
 private fun cancelCoroutine() = runBlocking {
@@ -46,3 +48,43 @@ private fun showCancellation() = runBlocking {
     releaseMain(job)
 }
 
+private fun checkJobActive() = runBlocking {
+    val scope = this
+    val job = scope.launch(Dispatchers.Default) {
+        try {
+            running()
+        } finally {
+            println("job: I'm running finally.")
+        }
+    }
+    delay(1300L)
+    releaseMain(job)
+}
+
+private fun runNonCancellable() = runBlocking {
+    val scope = this
+    val job = scope.launch(Dispatchers.Default) {
+        try {
+            running()
+        }finally {
+            withContext(NonCancellable) {
+                println("job: I'm running finally.")
+                delay(1000L)
+                println("job: And I've just delay for 1 second because I'm non-cancellable.")
+            }
+        }
+    }
+    delay(1300L)
+    releaseMain(job)
+}
+
+private fun CoroutineScope.running() {
+    var next = System.currentTimeMillis()
+    var index = 0
+    while (isActive && index < 100) {
+        if (System.currentTimeMillis() >= next) {
+            println("job: I'm sleeping #${index++}")
+            next += 500L
+        }
+    }
+}
