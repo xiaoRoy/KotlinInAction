@@ -7,7 +7,10 @@ fun main() {
 //    cancelCoroutine()
 //    showCancellation()
 //    checkJobActive()
-    runNonCancellable()
+//    runNonCancellable()
+//    runTimeout()
+//    runTimeoutOrNull()
+    releaseResourceNotRight()
 }
 
 private fun cancelCoroutine() = runBlocking {
@@ -66,7 +69,7 @@ private fun runNonCancellable() = runBlocking {
     val job = scope.launch(Dispatchers.Default) {
         try {
             running()
-        }finally {
+        } finally {
             withContext(NonCancellable) {
                 println("job: I'm running finally.")
                 delay(1000L)
@@ -88,3 +91,67 @@ private fun CoroutineScope.running() {
         }
     }
 }
+
+private fun runTimeout() = runBlocking {
+    val scope = this
+    withTimeout(1300L) {
+        repeat(1000) { index ->
+            println("job: I'm sleeping #$index")
+            delay(500L)
+        }
+    }
+}
+
+private fun runTimeoutOrNull() = runBlocking {
+    val scope = this
+    val result: String? = withTimeoutOrNull(1300L) {
+        repeat(1000) { index ->
+            println("job: I'm sleeping #$index")
+            delay(500L)
+        }
+        "Done!"
+    }
+    println("Result is $result")
+}
+
+private var acquiredCount = 0
+
+class Resource {
+    init {
+        println("Resource init")
+        acquiredCount++
+    }
+
+    fun close() {
+        println("Resource close")
+        acquiredCount--
+    }
+}
+
+private fun releaseResourceNotRight() {
+    runBlocking {
+        val scope = this
+        println("scope: $scope")
+        repeat(1) { index ->
+            println("#$index")
+            scope.launch {
+                val resource = withTimeout(60) {
+                    val another = this
+                    println("another: $another")
+                    delay(50)
+                    Resource()
+                }
+//                val resource = coroutineScope {
+//                    delay(50)
+//                    Resource()
+//                }
+                println("after index#$index")
+                resource.close()
+            }
+        }
+        println("Acquired count:$acquiredCount")
+    }
+}
+
+
+
