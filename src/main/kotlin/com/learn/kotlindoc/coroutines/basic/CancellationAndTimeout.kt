@@ -10,7 +10,9 @@ fun main() {
 //    runNonCancellable()
 //    runTimeout()
 //    runTimeoutOrNull()
-    releaseResourceNotRight()
+//    releaseResourceNotRight()
+//    withTimeoutRight()
+    withTimeoutWithTimeoutCancellationException()
 }
 
 private fun cancelCoroutine() = runBlocking {
@@ -132,12 +134,12 @@ private fun releaseResourceNotRight() {
     runBlocking {
         val scope = this
         println("scope: $scope")
-        repeat(1) { index ->
-            println("#$index")
+        repeat(100_000) { index ->
+//            println("#$index")
             scope.launch {
                 val resource = withTimeout(60) {
                     val another = this
-                    println("another: $another")
+//                    println("another: $another")
                     delay(50)
                     Resource()
                 }
@@ -145,13 +147,55 @@ private fun releaseResourceNotRight() {
 //                    delay(50)
 //                    Resource()
 //                }
-                println("after index#$index")
+//                println("after index#$index")
                 resource.close()
             }
         }
-        println("Acquired count:$acquiredCount")
+
     }
+    println("Acquired count:$acquiredCount")
 }
 
 
+/*
+* ????
+* */
+private fun withTimeoutWithTimeoutCancellationException() {
+    runBlocking {
+        repeat(100_000) {
+            println("index:$it")
+            var resource: Resource? = null
+            try {
+                withTimeout(60) {
+                    delay(50)
+                    resource = Resource()
+                }
+            } finally {
+                resource?.close()
+            }
+        }
+    }
+    println("Acquired count:$acquiredCount")
+}
+
+private fun withTimeoutRight() {
+    runBlocking {
+        repeat(100_000) {
+            launch {
+                println("index:$it")
+                var resource: Resource? = null
+                try {
+                    withTimeout(60) {
+                        delay(50)
+                        resource = Resource()
+                    }
+                } finally {
+                    resource?.close()
+                }
+            }
+
+        }
+    }
+    println("Acquired count:$acquiredCount")
+}
 
