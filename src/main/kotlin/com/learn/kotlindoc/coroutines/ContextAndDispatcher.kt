@@ -10,7 +10,8 @@ fun main() {
 //    jumpingBetweenThreads()
 //    notCancelled()
 //    cancelled()
-    cancelledWithContext()
+//    cancelledWithContext()
+    nameCoroutineForDebugging()
 }
 
 @ObsoleteCoroutinesApi
@@ -126,4 +127,26 @@ private fun cancelledWithContext() = runBlocking {
     }
     mainJob.cancel()
     delay(10_000L)
+}
+
+/*
+*Naming coroutine for debugging
+* */
+
+private fun nameCoroutineForDebugging() = runBlocking {
+    log("Started main coroutine")
+    val scope = this
+    val first = scope.async(CoroutineName("first")) {
+        delay(500L)
+        log("Computing first")
+        252
+    }
+
+    val second = scope.async(CoroutineName("second")) {
+        delay(1000L)
+        log("Computing second")
+        144
+    }
+    val result = first.await() + second.await()
+    log("The answer is $result")
 }
