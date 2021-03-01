@@ -39,10 +39,12 @@ private fun noParentInGlobalScope() = runBlocking {
 * */
 
 private fun showParentalResponsibility() = runBlocking {
-    val request = launch {
+    val scope = this
+    val request = scope.launch {
+        val anotherScope = this
         repeat(3) { index ->
-            launch {
-                delay((index + 1) * 200L)
+            anotherScope.launch {
+                delay((index + 1) * 200L * 5)
                 println("Coroutine#$index is done.")
             }
         }

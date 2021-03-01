@@ -11,7 +11,8 @@ fun main() {
 //    notCancelled()
 //    cancelled()
 //    cancelledWithContext()
-    nameCoroutineForDebugging()
+//    nameCoroutineForDebugging()
+    combineContext()
 }
 
 @ObsoleteCoroutinesApi
@@ -149,4 +150,17 @@ private fun nameCoroutineForDebugging() = runBlocking {
     }
     val result = first.await() + second.await()
     log("The answer is $result")
+}
+
+/*
+* Combining context elements
+* */
+
+private fun combineContext() = runBlocking {
+    val scope = this
+    scope.launch(context = Dispatchers.Default + CoroutineName("test")) {
+        delay(10000L)
+        println("I am working in thread ${Thread.currentThread().name}")
+    }
+    println("last")
 }
