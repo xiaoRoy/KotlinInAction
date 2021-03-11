@@ -1,8 +1,6 @@
 package com.learn.apprentice.chap23
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 
 private fun speakThroughBullhorn(message: String) {
@@ -53,24 +51,91 @@ class Building(val name: String) {
 
 class BuildingSecond(
         val name: String,
-        var floor: Int = 0,
+        var floors: Int = 0,
         private val scope: CoroutineScope
 ) {
 
     private fun currentThreadName() = "[${Thread.currentThread().name}]"
 
-    suspend fun makeFoundation() {
+    suspend fun makeFoundation() = scope.launch {
         delay(300)
-        scope.launch {
-            speakThroughBullhorn("${currentThreadName()} The foundation is ready")
-        }
+        speakThroughBullhorn("${currentThreadName()} The foundation is ready")
     }
 
-    suspend fun buildFloor(floor: Int) {
+    suspend fun buildFloor(floor: Int) = scope.launch {
         delay(100)
+        speakThroughBullhorn("${currentThreadName()} Floor number $floor is build")
+        floors++
+    }
+
+    fun placeWindows(floor: Int) {
         scope.launch {
-            speakThroughBullhorn("${currentThreadName()} The foundation is ready")
+            delay(100)
+            speakThroughBullhorn("${currentThreadName()} Windows are placed on the #$floor floor")
         }
     }
 
+    suspend fun installDoors(floor: Int) {
+        scope.launch {
+            delay(100)
+            speakThroughBullhorn("${currentThreadName()} Doors are installed on the #$floor floor")
+        }
+    }
+
+    suspend fun provideElectricity(floor: Int) {
+        scope.launch {
+            delay(100)
+            speakThroughBullhorn("${currentThreadName()} Electricity is provided on the #$floor floor")
+        }
+    }
+
+    suspend fun buildRoof() = scope.launch {
+        delay(200)
+        speakThroughBullhorn("${currentThreadName()} The roof is ready")
+    }
+
+    suspend fun fitOut(floor: Int) {
+        scope.launch {
+            delay(200)
+            speakThroughBullhorn("${currentThreadName()} The #$floor is furnished")
+        }
+    }
+}
+
+class BuildingYard {
+    suspend fun startProject(name: String, floors: Int) {
+        val building = withContext(context = Dispatchers.Default) {
+            val result = BuildingSecond(name, scope = this)
+            val cores = Runtime.getRuntime().availableProcessors()
+            speakThroughBullhorn("The building $name is start with $cores building machines engaged")
+            result.makeFoundation().join()
+
+            (1..floors).forEach {
+                with(result) {
+                    buildFloor(it).join()
+
+                    placeWindows(it)
+                    installDoors(it)
+                    provideElectricity(it)
+                    fitOut(it)
+                }
+            }
+
+            result.buildRoof()
+            result
+        }
+
+
+
+        if (building.floors == floors) {
+            speakThroughBullhorn("${building.name} is ready!")
+        }
+    }
+}
+
+
+fun main() {
+    runBlocking {
+        BuildingYard().startProject("Smart House", 1)
+    }
 }
