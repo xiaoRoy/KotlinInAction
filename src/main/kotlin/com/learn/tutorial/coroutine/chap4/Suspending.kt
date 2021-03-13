@@ -2,27 +2,25 @@ package com.learn.tutorial.coroutine.chap4
 
 import com.learn.tutorial.coroutine.chap3.readFileByPath
 import com.learn.tutorial.coroutine.showCurrentThreadName
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import javafx.application.Application.launch
+import kotlinx.coroutines.*
 import java.io.File
 import kotlin.concurrent.thread
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 fun main() {
-//    daemonThread()
+    daemonThread()
 //    showUser("44")
-    displayUserSecond()
+//    displayUserSecond()
 }
 
 private fun daemonThread() {
     val thread = Thread {
-        Thread.sleep(1L)
+        Thread.sleep(10000L)
         println("what")
     }
-    thread.isDaemon = true
+//    thread.isDaemon = true
     thread.start()
 }
 
