@@ -1,19 +1,30 @@
 package com.learn.tutorial.coroutine.chap7
 
 import com.learn.tutorial.coroutine.showCurrentThreadName
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
+import java.util.concurrent.Executors
+import kotlin.coroutines.CoroutineContext
 
 fun main() {
-    learnDefaultDispatcher()
+//    learnDispatcher(Dispatchers.Unconfined)
+//    learnDispatcher(Dispatchers.IO)
+//    learnDispatcher()
+    learnUsingExecutor()
 }
 
-private fun learnDefaultDispatcher() = runBlocking {
+private fun learnDispatcher(
+        coroutineContext: CoroutineContext = Dispatchers.Default
+) = runBlocking {
     val scope = this
-    scope.launch(context = Dispatchers.Default) {
+    scope.launch(context = coroutineContext) {
         showCurrentThreadName()
     }
-    delay(100L)
+//    delay(100L)
 }
+
+private fun learnUsingExecutor() {
+    val executorDispatcher = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
+    learnDispatcher(executorDispatcher)
+}
+
+
