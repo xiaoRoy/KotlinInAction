@@ -8,7 +8,8 @@ suspend fun main() {
 //    third()
 //    fourth()
 //    thirdPlus()
-    fifth()
+//    fifth()
+    likeDaemonThread()
 }
 
 
@@ -116,6 +117,18 @@ private suspend fun printWorld() {
 private suspend fun printWorldWithScope(scope: CoroutineScope) {
     delay(1000L)
     println(WORLD)
+}
+
+private fun likeDaemonThread() {
+    runBlocking {
+        GlobalScope.launch {
+            repeat(1000) { index ->
+                println("I'm sleeping #$index")
+                delay(500L)
+            }
+        }
+        delay(1300L)
+    }
 }
 
 
