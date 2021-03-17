@@ -2,10 +2,13 @@ package com.learn.tutorial.coroutine.chap8
 
 import kotlinx.coroutines.*
 import java.lang.ArithmeticException
+import java.lang.IllegalArgumentException
+import kotlin.concurrent.thread
 
 
 fun main() {
-    handleException()
+//    handleException()
+    unCaughtExceptionHandler()
 }
 
 private fun handleException() {
@@ -30,3 +33,16 @@ private fun handleException() {
         }
     }
 }
+
+private fun unCaughtExceptionHandler() {
+    val thread = Thread{
+        throw IllegalArgumentException()
+    }.apply {
+        uncaughtExceptionHandler = Thread.UncaughtExceptionHandler { thraed, exception ->
+            println("Exception is ${exception.javaClass.name}")
+        }
+    }
+    thread.start()
+}
+
+
