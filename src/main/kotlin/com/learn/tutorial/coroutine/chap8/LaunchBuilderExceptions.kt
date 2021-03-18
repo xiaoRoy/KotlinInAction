@@ -1,11 +1,11 @@
 package com.learn.tutorial.coroutine.chap8
 
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 
 
 fun main() {
-    learnLaunchBuilderException()
+//    learnLaunchBuilderException()
+    learnExceptionHandler()
 }
 
 private fun learnLaunchBuilderException() = runBlocking {
@@ -19,4 +19,20 @@ private fun learnLaunchBuilderException() = runBlocking {
     }
 
     job.join()
+}
+
+private fun learnExceptionHandler() {
+    val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+        println("Caught $exception")
+    }
+    runBlocking(exceptionHandler) {
+        val scope = this
+        val job = scope.launch {
+            throw IllegalArgumentException()
+        }
+        val deferred = scope.async {
+            throw IndexOutOfBoundsException()
+        }
+        joinAll(job, deferred)
+    }
 }
