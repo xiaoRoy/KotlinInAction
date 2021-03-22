@@ -25,14 +25,15 @@ private fun learnExceptionHandler() {
     val exceptionHandler = CoroutineExceptionHandler { _, exception ->
         println("Caught $exception")
     }
-    runBlocking(exceptionHandler) {
+    runBlocking {
         val scope = this
-        val job = scope.launch {
+       scope.launch(exceptionHandler) {
             throw IllegalArgumentException()
         }
         val deferred = scope.async {
             throw IndexOutOfBoundsException()
         }
-        joinAll(job, deferred)
+//        joinAll(job, deferred)
+        delay(5000)
     }
 }
