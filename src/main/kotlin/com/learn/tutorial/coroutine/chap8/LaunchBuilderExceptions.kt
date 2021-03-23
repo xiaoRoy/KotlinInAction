@@ -22,12 +22,15 @@ private fun learnLaunchBuilderException() = runBlocking {
 }
 
 private fun learnExceptionHandler() {
+    Thread.currentThread().setUncaughtExceptionHandler { _, _ -> println("what!") }
     val exceptionHandler = CoroutineExceptionHandler { _, exception ->
         println("Caught $exception")
     }
-    runBlocking {
+    runBlocking(context = exceptionHandler) {
         val scope = this
-       scope.launch(exceptionHandler) {
+        println(this)
+        scope.launch(exceptionHandler) {
+            println(this)
             throw IllegalArgumentException()
         }
         val deferred = scope.async {
