@@ -31,15 +31,20 @@ private fun handleMultipleException() = runBlocking {
         val parentScope = this
 
         //first child job
-        val parentJob = parentScope.launch {
+        val firstChild = parentScope.launch {
             try {
+                println("first: I am running normally.")
                 delay(1000 * 12)
             } catch (exception: Exception) {
+                println("first: Catch the exception caused by second child of the parent.")
                 println("$exception caught in first child job")
             } finally {
-                throw IndexOutOfBoundsException("throw by fainlly")
+                throw IndexOutOfBoundsException("throw by finally")
             }
         }
+//        firstChild.invokeOnCompletion { exception ->
+//            println("first: caught $exception")
+//        }
 
         //second child job
         parentScope.launch {
