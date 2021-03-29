@@ -1,5 +1,6 @@
 package com.learn.tutorial.coroutine.chap9
 
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -14,7 +15,9 @@ fun main() = runBlocking {
     }
     delay(1300L)
     println("main: I am tired of waiting!")
-    job.cancel()
-    job.join()
+    job.cancelAndJoin()
     println("main: Not I can quit.")
 }
+
+
+
