@@ -1,13 +1,17 @@
 package com.learn.tutorial.coroutine.chap9
 
 import kotlinx.coroutines.*
+import java.io.IOException
 
 fun main() {
 //    learnJoin()
 //    learnJoinAll()
 //    stillRunning()
 //    stillRunningWithSuspending()
-    stillRunningGlobal()
+//    stillRunningGlobal()
+//    learnCancelAndJoin()
+//    cancelChildren()
+    throwExceptionFromOneOfChildren()
 }
 
 
@@ -70,4 +74,76 @@ private fun stillRunningGlobal() = runBlocking {
     job.cancel()
     // but it ends as the application ends.
     println("main:something still running!")
+}
+
+private fun learnCancelAndJoin() = runBlocking {
+    val job = launch {
+        repeat(100) {
+            println("#$it is running")
+            delay(2)
+        }
+    }
+    delay(50)
+    println("main: I am tired of waiting!!")
+    job.cancelAndJoin()
+    println("main: now i can quit.")
+}
+
+private fun cancelChildren() = runBlocking {
+    val parentJob = launch {
+        val childOne = launch {
+            repeat(1000) {
+                println("child one coroutine")
+                println("I am #$it in child one coroutine.")
+                delay(1000)
+            }
+        }
+        childOne.invokeOnCompletion { exception ->
+            println("Child one: $exception")
+        }
+
+        val childTwo = launch {
+            repeat(1000) {
+                println("child two coroutine")
+                println("I am #$it in child two coroutine.")
+                delay(1000)
+            }
+        }
+        childTwo.invokeOnCompletion { exception ->
+            println("Child two: $exception")
+        }
+
+        childOne.cancelAndJoin()
+    }
+}
+
+private fun throwExceptionFromOneOfChildren() = runBlocking {
+    val parentJob = launch {
+        val childOne = launch {
+            repeat(1000) {
+                println("child one coroutine")
+                println("I am #$it in child one coroutine.")
+                if(it == 10) {
+                    throw IOException()
+                }
+                delay(1000)
+            }
+        }
+        childOne.invokeOnCompletion { exception ->
+            println("Child one: $exception")
+        }
+        async {  }
+        val childTwo = launch {
+            repeat(1000) {
+                println("child two coroutine")
+                println("I am #$it in child two coroutine.")
+                delay(1000)
+            }
+        }
+        childTwo.invokeOnCompletion { exception ->
+            println("Child two: $exception")
+        }
+
+    }
+    parentJob.join()
 }
