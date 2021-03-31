@@ -10,8 +10,8 @@ fun main() {
 //    stillRunningWithSuspending()
 //    stillRunningGlobal()
 //    learnCancelAndJoin()
-//    cancelChildren()
-    throwExceptionFromOneOfChildren()
+    cancelChildren()
+//    throwExceptionFromOneOfChildren()
 }
 
 
@@ -112,9 +112,9 @@ private fun cancelChildren() = runBlocking {
         childTwo.invokeOnCompletion { exception ->
             println("Child two: $exception")
         }
-
-        childOne.cancelAndJoin()
     }
+    delay(5000L)
+    parentJob.cancelChildren()
 }
 
 private fun throwExceptionFromOneOfChildren() = runBlocking {
