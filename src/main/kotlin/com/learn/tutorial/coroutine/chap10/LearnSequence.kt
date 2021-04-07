@@ -1,8 +1,11 @@
 package com.learn.tutorial.coroutine.chap10
 
+import kotlinx.coroutines.delay
+
 
 fun main() {
-    showSequence()
+//    showSequence()
+    iterateSimpleYield()
 }
 
 
@@ -57,4 +60,25 @@ private fun showFib(sequence: Sequence<Int>, count: Int) {
     sequence.take(count).forEach {
         println(it)
     }
+}
+
+private fun iterateSimpleYield() {
+    val fruits = simpleYield()
+    fruits.forEach {
+        println(it)
+    }
+}
+
+private fun simpleYield() = sequence<String> {
+    yield("Apple")
+    yield("Orange")
+    yield("Banana")
+}
+
+private fun learnYieldAll() = sequence<Int> {
+    yieldAll(1..5)
+}
+
+private fun learnYieldAllWithSequence() = sequence<Int> {
+    yieldAll(generateSequence(2) { it * 2 })
 }
