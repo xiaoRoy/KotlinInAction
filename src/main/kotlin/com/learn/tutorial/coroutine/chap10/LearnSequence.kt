@@ -1,11 +1,13 @@
 package com.learn.tutorial.coroutine.chap10
 
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 
 fun main() {
 //    showSequence()
-    iterateSimpleYield()
+//    iterateSimpleYield()
+    demonstrateYield()
 }
 
 
@@ -81,4 +83,12 @@ private fun learnYieldAll() = sequence<Int> {
 
 private fun learnYieldAllWithSequence() = sequence<Int> {
     yieldAll(generateSequence(2) { it * 2 })
+}
+
+private fun demonstrateYield() = runBlocking {
+    val sequence = learnYieldAllWithSequence().take(10)
+    sequence.forEachIndexed { index, element ->
+        println("This is #$index element:$element")
+        delay(2000)
+    }
 }
