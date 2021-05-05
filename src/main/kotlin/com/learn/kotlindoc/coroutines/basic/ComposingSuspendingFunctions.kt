@@ -14,7 +14,9 @@ fun main() {
 //    sumWithStructured()
 //    failedConcurrentSum()
 //    failedConcurrentSumNoScopeBuilder()
-    stillRunning()
+//    stillRunning()
+    usingSameScope()
+//    leanCoroutineScope()
 }
 
 
@@ -53,7 +55,7 @@ private suspend fun getSecondCount(): Int {
 private fun concurrentUsingAsync() {
     runBlocking {
         /*
-        Notice thw await() call, it suspends the coroutine.
+        Notice the await() call, it suspends the coroutine.
         So the completed time is at least 2000L
         val result = measureTimeMillis {
             val one = async { getFirstCount() }.await()
@@ -183,6 +185,60 @@ private fun failedConcurrentSumNoScopeBuilder() {
             println("Computation failed with ArithmeticException")
         }
     }
+}
+
+/*
+* learn coroutineScope
+* */
+
+private fun usingSameScope() = runBlocking {
+    val measureTime = measureTimeMillis {
+        try {
+            val one = doFirstTaskAsync(this)
+            val two = doSecondTaskAsync(this)
+            val result = one.await() + two.await()
+            println("result is $result")
+        } catch (exception: IllegalArgumentException) {
+            println("can not catch")
+        }
+    }
+    println("measureTime:$measureTime")
+}
+
+private fun doFirstTaskAsync(scope: CoroutineScope) = scope.async {
+    delay(5000L)
+    println("still running")
+    12
+}
+
+private fun doSecondTaskAsync(scope: CoroutineScope) = scope.async {
+    delay(3000L)
+    somethingWrongBetweenAsyncAndAwait()
+}
+
+private fun leanCoroutineScope() = runBlocking {
+
+    try {
+        val result = usingCoroutineScope()
+        println("result is $result")
+    } catch (exception: ArithmeticException) {
+        println("Computation failed with ArithmeticException")
+    }
+
+}
+
+private suspend fun usingCoroutineScope() = coroutineScope {
+    val one = async {
+        delay(5000L)
+        12
+    }
+
+    val two = async<Int> {
+        delay(1000)
+        throw ArithmeticException()
+    }
+
+    one.await() + two.await()
 }
 
 
