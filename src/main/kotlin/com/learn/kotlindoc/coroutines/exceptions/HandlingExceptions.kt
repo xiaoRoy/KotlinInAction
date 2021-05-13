@@ -1,14 +1,13 @@
 package com.learn.kotlindoc.coroutines.exceptions
 
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import java.lang.ArithmeticException
+import java.lang.IllegalArgumentException
 
 
 fun main() {
-    learnExceptionPropagation()
+//    learnExceptionPropagation()
+    learnExceptionHandler()
 }
 
 /*
@@ -36,3 +35,27 @@ private fun learnExceptionPropagation() {
         }
     }
 }
+/*
+* CoroutineExceptionHandler
+* */
+private fun learnExceptionHandler() = runBlocking {
+    val handler = CoroutineExceptionHandler { _, exception ->
+        println("CoroutineExceptionHandler got $exception")
+    }
+
+    val job = GlobalScope.launch(handler) {
+        throw IndexOutOfBoundsException()
+    }
+
+    val deferred: Deferred<Unit> = GlobalScope.async(handler) {
+        throw IllegalArgumentException()
+    }
+
+    joinAll(deferred, job)
+}
+
+/*
+* Cancellation and exception
+* */
+
+
