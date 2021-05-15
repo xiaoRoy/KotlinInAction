@@ -7,7 +7,8 @@ import java.lang.IllegalArgumentException
 
 fun main() {
 //    learnExceptionPropagation()
-    learnExceptionHandler()
+//    learnExceptionHandler()
+    what()
 }
 
 /*
@@ -59,3 +60,19 @@ private fun learnExceptionHandler() = runBlocking {
 * */
 
 
+
+
+private fun what() = runBlocking {
+    val one: Deferred<Int> = async {
+        delay(3000)
+        println("running...")
+        1
+    }
+
+    val two: Deferred<Int> = async {
+        delay(1000L)
+        throw IndexOutOfBoundsException()
+    }
+
+    val result = one.await() + two.await()
+}

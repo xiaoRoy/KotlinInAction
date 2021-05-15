@@ -3,6 +3,7 @@ package com.learn.kotlindoc.coroutines.basic
 import kotlinx.coroutines.*
 import java.lang.Exception
 import java.lang.IllegalArgumentException
+import java.lang.IndexOutOfBoundsException
 import kotlin.system.measureTimeMillis
 
 
@@ -199,22 +200,27 @@ private fun usingSameScope() = runBlocking {
             val two = doSecondTaskAsync(this)
             val result = one.await() + two.await()
             println("result is $result")
-        } catch (exception: IllegalArgumentException) {
+        } catch (exception: IndexOutOfBoundsException) {
+            // because of the cancellation exception
             println("can not catch")
         }
     }
     println("measureTime:$measureTime")
 }
 
-private fun doFirstTaskAsync(scope: CoroutineScope) = scope.async {
+
+
+private fun doFirstTaskAsync(scope: CoroutineScope): Deferred<Int> = scope.async {
     delay(5000L)
     println("still running")
     12
 }
 
-private fun doSecondTaskAsync(scope: CoroutineScope) = scope.async {
-    delay(3000L)
-    somethingWrongBetweenAsyncAndAwait()
+private fun doSecondTaskAsync(scope: CoroutineScope): Deferred<Int> {
+    return scope.async {
+        delay(3000L)
+        throw IndexOutOfBoundsException()
+    }
 }
 
 private fun leanCoroutineScope() = runBlocking {
