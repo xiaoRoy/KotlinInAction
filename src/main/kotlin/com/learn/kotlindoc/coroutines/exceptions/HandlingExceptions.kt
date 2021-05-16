@@ -8,7 +8,7 @@ import java.lang.IllegalArgumentException
 fun main() {
 //    learnExceptionPropagation()
 //    learnExceptionHandler()
-    what()
+
 }
 
 /*
