@@ -13,7 +13,12 @@ fun main() {
 //        runGlobalAsyncHandleError()
 //        errorInCoroutineScope()
 //        runConcurrentSumWithErrorHandleInside()
-        errorInCoroutineScopeHandleOutside()
+//        errorInCoroutineScopeHandleOutside()
+//        runAsyncInCustomScope()
+//        runAsyncInCustomScopeHandleExceptionInside()
+//        runAsyncInRootWithError()
+//        runAsyncNotInRootWithError()
+        runAsyncNotInRootWithErrorAndCatchItInAsync()
     }
 }
 
@@ -35,6 +40,7 @@ private suspend fun concurrentSum(): Int {
 
 private suspend fun doFirstTask(): Int {
     delay(3000L)
+    println("First Task is still running.")
     return 12
 }
 
@@ -91,7 +97,7 @@ private fun runConcurrentSumWithErrorHandleInside() = runBlocking {
 /*
 * exception in second task, using coroutineScope,
 * handle the exception outside CoroutineScope,
-* still CRASH
+* NO CRASH
 * */
 
 private fun errorInCoroutineScopeHandleOutside() = runBlocking {
@@ -167,4 +173,97 @@ private fun runGlobalAsyncHandleError() = runBlocking {
     //result is 12
     val result = firstResult + secondResult
     println("Result is: $result")
+}
+
+/*
+* using custom scope to run async
+* */
+
+private fun runAsyncInCustomScope() = runBlocking {
+    val scope = CoroutineScope(Job() + Dispatchers.Default)
+    val parentJob = scope.launch {
+        val firstResult = async { doFirstTask() }
+        val secondResult = async { doSecondTask() }
+        val result = firstResult.await() + secondResult.await()
+        println("Result is $result")
+    }
+    parentJob.join()
+    println("End!")
+}
+
+/*
+* using custom scope to run async, exception in second task,
+* handle exception in launch
+* still crash?
+* */
+
+private fun runAsyncInCustomScopeHandleExceptionInside() = runBlocking {
+    val handler = CoroutineExceptionHandler { context, exception ->
+        println("Uncaught exception $exception in handler")
+    }
+    val scope = CoroutineScope(Job() + Dispatchers.Default + handler)
+    val parentJob = scope.launch {
+        val first = async { doFirstTask() }
+        val second = async { doSecondTaskWithError() }
+
+
+        val firstResult = try {
+            first.await()
+        } catch (exception: Exception) {
+            println("Caught exception:$exception")
+            0
+        }
+
+        val secondResult = try {
+            println("Before await")
+            second.await()
+        } catch (exception: Exception) {
+            println("Second Caught exception:$exception")
+            0
+        }
+        val result = firstResult + secondResult
+        println("Result is $result")
+    }
+    parentJob.join()
+    println("End!")
+}
+
+
+/*
+* demonstrate the differences between running async in root and not a root coroutine
+* */
+
+
+/*
+* not throw any exceptions as long you don't call await
+* */
+private fun runAsyncInRootWithError() = runBlocking {
+    val scope = CoroutineScope(Job() + Dispatchers.Default)
+    val resultDeferred:Deferred<Int> = scope.async {
+        doSecondTaskWithError()
+    }
+
+    delay(10000)
+}
+/*
+* throw exception immediately even you don't call await
+* */
+private fun runAsyncNotInRootWithError() = runBlocking {
+    val scope = CoroutineScope(Job() + Dispatchers.Default)
+    val parentJob = scope.launch {
+        val secondResult = async { doSecondTaskWithError() }
+    }
+    delay(10000)
+}
+
+private fun runAsyncNotInRootWithErrorAndCatchItInAsync() = runBlocking {
+    val scope = CoroutineScope(Job() + Dispatchers.Default)
+    val parentJob = scope.launch {
+        val secondResult = try {
+            async { doSecondTaskWithError() }
+        } catch (exception: Exception) {
+            println("Caught exception: $exception")
+        }
+    }
+    delay(10000)
 }
