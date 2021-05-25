@@ -38,6 +38,7 @@ class TestLowerCoroutineScopeDocumentation {
 
         val doSomeWork: () -> Unit = {
             throw IllegalArgumentException()
+
         }
 
         val loadProductAction: suspend () -> Product = {
