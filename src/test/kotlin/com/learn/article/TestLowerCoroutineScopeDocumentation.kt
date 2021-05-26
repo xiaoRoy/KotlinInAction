@@ -45,6 +45,7 @@ class TestLowerCoroutineScopeDocumentation {
             delay(3000L)
             productSpy
         }
+
         showProductInfo(loadProductAction, doSomeWork)
         delay(3000L)
         Mockito.verify(productSpy, Mockito.never()).showProductInfo()
