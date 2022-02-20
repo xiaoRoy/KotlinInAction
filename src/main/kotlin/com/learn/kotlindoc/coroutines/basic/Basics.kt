@@ -8,8 +8,8 @@ suspend fun main() {
 //    third()
 //    fourth()
 //    thirdPlus()
-//    fifth()
-    likeDaemonThread()
+    fifth()
+//    likeDaemonThread()
 }
 
 
