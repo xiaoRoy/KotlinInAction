@@ -23,11 +23,28 @@ private fun displayProfile(profile: Profile) {
 
 private fun learnSuspendingFunction(scope: CoroutineScope) {
     val id = "id"
+    //dispatches coroutines on the main thread
     scope.launch {
         val childScope = this
-        val profileDeferred = childScope.async(Dispatchers.Default) { fetchProfile(id) }
+        val profileDeferred = childScope.async(Dispatchers.Default) {
+            fetchProfile(id)
+        }
         val profile = profileDeferred.await()
         displayProfile(profile)
     }
+}
 
+private fun learnSuspendingFunctionSecond(scope: CoroutineScope) {
+    val id = "id"
+    scope.launch {
+        val profile = fetchProfileWithContext(id)
+        displayProfile(profile)
+    }
+}
+
+private suspend fun fetchProfileWithContext(id: String): Profile {
+    return withContext(Dispatchers.Default) {
+        delay(1000L)
+        Profile(id)
+    }
 }
