@@ -43,11 +43,21 @@ private class HikeViewModel : ViewModel() {
         //It's on worker thread.
         hikes.forEach {
             ioThreadPool.submit {
-                val weather = fetchWeather(it)
-                val hikeData = HikeData(it, weather)
-                hikeDataList.add(hikeData)
-                hikeLiveData.postValue(hikeDataList)
+                updateHikeData(it)
             }
+        }
+    }
+
+    private fun updateHikeData(hike: Hike) {
+        val weather = fetchWeather(hike)
+        val hikeData = HikeData(hike, weather)
+        hikeDataList.add(hikeData)
+        hikeLiveData.postValue(hikeDataList)
+    }
+
+    fun addHike(hike: Hike) {
+        ioThreadPool.submit {
+            updateHikeData(hike)
         }
     }
 }
@@ -56,6 +66,7 @@ private class HikeViewModel : ViewModel() {
 //using handler
 private class HikeViewModelV2 : ViewModel() {
     private val ioThreadPool = Executors.newWorkStealingPool(10)
+    private val handler = Handler(Looper.getMainLooper())
 
     private val hikeDataList = mutableListOf<HikeData>()
     val hikeLiveData = MutableLiveData<List<HikeData>>()
@@ -72,11 +83,23 @@ private class HikeViewModelV2 : ViewModel() {
         //It's on worker thread.
         hikes.forEach {
             ioThreadPool.submit {
-                val weather = fetchWeather(it)
-                val hikeData = HikeData(it, weather)
-                hikeDataList.add(hikeData)
-                hikeLiveData.postValue(hikeDataList)
+                updateHikeData(it)
             }
+        }
+    }
+
+    private fun updateHikeData(hike: Hike) {
+        val weather = fetchWeather(hike)
+        val hikeData = HikeData(hike, weather)
+        handler.post {
+            hikeDataList.add(hikeData)
+            hikeLiveData.setValue(hikeDataList)
+        }
+    }
+
+    fun addHike(hike: Hike) {
+        ioThreadPool.submit {
+            updateHikeData(hike)
         }
     }
 }
@@ -93,6 +116,10 @@ private class MutableLiveData<T> {
     fun postValue(t: T) {
 
     }
+
+    fun setValue(t: T) {
+
+    }
 }
 
 private class Looper {
@@ -105,5 +132,9 @@ private class Looper {
 }
 
 private class Handler(private val looper: Looper) {
+
+    fun post(runnable: Runnable) {
+        runnable.run()
+    }
 
 }
