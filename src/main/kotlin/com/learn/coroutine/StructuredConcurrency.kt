@@ -1,5 +1,8 @@
 package com.learn.coroutine
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.nio.file.WatchEvent
 import java.util.concurrent.Executors
 
 
@@ -21,7 +24,7 @@ private fun fetchHikes(id: String): List<Hike> {
 }
 
 private fun fetchWeather(hike: Hike): Weather {
-    TODO()
+    return Weather()
 }
 
 
@@ -100,6 +103,22 @@ private class HikeViewModelV2 : ViewModel() {
     fun addHike(hike: Hike) {
         ioThreadPool.submit {
             updateHikeData(hike)
+        }
+    }
+}
+
+private class HikeViewModelV3 : ViewModel() {
+
+
+    private suspend fun fetchHikeForUser(userId: String): List<Hike> {
+        return withContext(Dispatchers.IO) {
+            fetchHikes(userId)
+        }
+    }
+
+    private suspend fun fetchWeatherForHike(hike: Hike) {
+        return withContext(Dispatchers.IO) {
+            fetchWeather(hike)
         }
     }
 }
