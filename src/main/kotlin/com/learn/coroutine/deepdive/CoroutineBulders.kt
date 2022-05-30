@@ -12,6 +12,7 @@ import kotlinx.coroutines.*
 fun main() {
 //    learnAsyncBuilder()
     learnStructureConcurrency()
+//    what()
 }
 
 private fun learnAsyncBuilder() = runBlocking {
