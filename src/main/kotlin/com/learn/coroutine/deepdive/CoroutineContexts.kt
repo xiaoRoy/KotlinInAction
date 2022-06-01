@@ -1,13 +1,15 @@
 package com.learn.coroutine.deepdive
 
 import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 
 
 fun main() {
 //    findingCoroutineContext()
 //    addingContext()
-    subtractingElements()
+//    subtractingElements()
+    learnFold()
 }
 
 /*
@@ -47,4 +49,22 @@ private fun subtractingElements() {
 
 
 private fun learnFold() {
+    val coroutineName = CoroutineName("what")
+    val job = Job()
+    val result = coroutineName + job
+
+    result.fold("") { accumulate, element -> "$accumulate:$element" }
+            .let(::println)
 }
+
+
+/*
+* Coroutine context and builders
+* */
+
+private fun CoroutineScope.log(message: String) {
+    coroutineContext[CoroutineName]?.let {
+        println("[$it] $message")
+    }
+}
+

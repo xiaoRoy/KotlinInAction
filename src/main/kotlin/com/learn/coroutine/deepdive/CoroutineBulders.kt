@@ -11,8 +11,9 @@ import kotlinx.coroutines.*
 
 fun main() {
 //    learnAsyncBuilder()
-    learnStructureConcurrency()
+//    learnStructureConcurrency()
 //    what()
+    where()
 }
 
 private fun learnAsyncBuilder() = runBlocking {
@@ -65,13 +66,21 @@ private fun what() = runBlocking {
 }
 
 private fun where() = runBlocking {
-    launch {
+    launch(Dispatchers.IO) {
         delay(1000L)
         println(" world!")
     }
     println("Hello")
 }
 
+
+private fun how() = runBlocking {
+    launch(Dispatchers.IO) {
+        delay(1000L)
+        println(" world!")
+    }
+    println("Hello")
+}
 
 /*
 *
