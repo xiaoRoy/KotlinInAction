@@ -66,7 +66,7 @@ private fun what() = runBlocking {
 }
 
 private fun where() = runBlocking {
-    launch(Dispatchers.IO) {
+    launch {
         delay(1000L)
         println(" world!")
     }

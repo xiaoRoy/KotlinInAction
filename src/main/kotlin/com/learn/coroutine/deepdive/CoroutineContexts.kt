@@ -1,15 +1,17 @@
 package com.learn.coroutine.deepdive
 
-import kotlinx.coroutines.CoroutineName
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
+import java.util.concurrent.Executors
+import kotlin.concurrent.thread
+import kotlin.coroutines.CoroutineContext
 
 
 fun main() {
 //    findingCoroutineContext()
 //    addingContext()
 //    subtractingElements()
-    learnFold()
+//    learnFold()
+    useCoroutineInAndroid()
 }
 
 /*
@@ -68,3 +70,50 @@ private fun CoroutineScope.log(message: String) {
     }
 }
 
+
+/*
+* My understanding about the suspending function
+*
+* */
+
+private fun fakeAndroidEnvironment(action: (CoroutineScope) -> Unit) {
+    val executor = Executors.newSingleThreadExecutor()
+    val mainDispatcher = executor.asCoroutineDispatcher()
+    executor.execute {
+        action(obtainMainScope(mainDispatcher))
+        while (true);
+    }
+}
+
+private class User
+
+private fun useCoroutineInAndroid() {
+
+    suspend fun fetchUserCoroutineScope(email: String): String {
+        println("Message")
+        delay(3000)
+        return "123token"
+    }
+
+    fun displayMessage(message: String) {
+        println(message)
+    }
+
+    fakeAndroidEnvironment {
+        val scope = it
+        scope.launch {
+            println("launch")
+            val token = withContext(Dispatchers.IO) {
+                fetchUserCoroutineScope("ab@gmail.com")
+            }
+            displayMessage(token)
+        }
+    }
+}
+
+private fun obtainMainScope(main: CoroutineDispatcher): CoroutineScope {
+    return object : CoroutineScope{
+        override val coroutineContext: CoroutineContext
+            get() = main + Job()
+    }
+}
